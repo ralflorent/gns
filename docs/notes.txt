@@ -1,2 +1,26 @@
 ********** Notes for the GNS project **********
 ***********************************************
+
+Created on: Feb 22, 2019
+Authors: 
+	Ralph Florent <r.florent@jacobs-university.de>
+	Asad Ahmed <as.ahmed@jacobs-university.de>
+
+
+Useful for ssh (remote) connections:
+
+Network: Jacobs University Intranet (via VPN)
+IP Address: 10.70.2.236 (Static) 
+username: pi
+password: raspberry
+
+Root path: ~/Projects/
+
+Project Structure:
+.
+├── docs
+└── gns
+    ├── gns-api
+    ├── gns-ui
+    ├── gns-utils
+    └── resources
