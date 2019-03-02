@@ -14,6 +14,14 @@ IP Address: 10.70.2.236 (Static)
 username: pi
 password: raspberry
 
+Network: The Fizz Bremen, Ralph's Room
+IP Address: 192.168.0.50 (Static via MAC Address)
+username: pi
+password: raspberry
+ssh-key: ~/Projects/ssh/keys/pi-home
+
+
+
 Root path: ~/Projects/
 
 Project Structure:
