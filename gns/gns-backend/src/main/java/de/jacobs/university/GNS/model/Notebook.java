@@ -7,21 +7,37 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "notebook")
+@Table(name = "notebooks")
 @Data
 public class Notebook
 {
     @Id
-    @Column(name = "notebook_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "title")
-    private String title;
+    @Column(name = "note_id")
+    private String noteID;
 
     @Column(name = "description")
     private String description;
 
-    @Column(name = "creation_date")
+    @Lob
+    @Column(name = "note")
+    private String note;
+
+    @Column(name = "latitude")
+    private Double latitude;
+
+    @Column(name = "longitude")
+    private Double longitude;
+
+    @Column(name = "gns_date")
+    private Date recordedDateTime;
+
+    @Column(name = "created_on")
     private Date creationDate;
+
+    @Column(name = "created_by")
+    private String createdByUserName;
 }
