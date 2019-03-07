@@ -8,6 +8,7 @@ package de.jacobs.university.GNS.controller;
 import de.jacobs.university.GNS.model.Notebook;
 
 import de.jacobs.university.GNS.repository.NotebookRepository;
+import de.jacobs.university.GNS.response.NotebookListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +29,11 @@ public class NotebookController
 
     // Return all existing notebooks
     @RequestMapping(value = "notes/list", method = RequestMethod.GET)
-    public List<Notebook> getNotebooks()
+    public NotebookListResponse getNotebooks()
     {
-        return repo.findAll();
-    }
+        List<Notebook> entities = repo.findAll();
+        NotebookListResponse response = new NotebookListResponse(entities);
 
+        return response;
+    }
 }
