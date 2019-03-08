@@ -1,0 +1,86 @@
+<div class="card text-center">
+    <div class="card-header bg-primary">
+        <h5 class="gns-text-w"> {{pageTitle}} </h5>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">
+            Notebook Management
+            <br>
+            <span class="small"> Add, edit, or delete your notes </span>
+        </h5>
+        <hr style="height:1px; border:none; color:#eee; background-color: #000; width:60%; text-align:center; margin: 1.5rem auto;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="float-left">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Type here..."
+                                [(ngModel)]="searchTerm" />
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="button"
+                                    (click)="search(searchTerm)">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <button class="btn btn-o btn-primary">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive-sm">
+                <br>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th> # </th>
+                            <th> ID </th>
+                            <th> Description </th>
+                            <th> Note </th>
+                            <th> Latitude </th>
+                            <th> Longitude </th>
+                            <th> Last Updated </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="notebooks && notebooks.length">
+                        <tr *ngFor="let nb of notebooks; let i = index">
+                            <td> {{ i + 1 }} </td>
+                            <td>
+                                <a [routerLink]="['/notebooks', nb.id]">
+                                    {{ nb.noteId }}
+                                </a>
+                            </td>
+                            <td> {{ nb.description }} </td>
+                            <td> {{ nb.note | shrink: 10 }} </td>
+                            <td> {{ nb.latitude | number: '2.8-8' }} </td>
+                            <td> {{ nb.longitude | number: '2.8-8' }} </td>
+                            <td> {{ nb.date | date: 'mediumDate' }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="!notebooks" class="alert alert-info" role="alert">
+                    No notebook info available to display! Add your note by click on the `+` button.
+                </div>
+                <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ errorMsg }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-footer text-muted">
+        <span class="float-md-left">
+            Developed by
+            <a href="https://github.com/ralflorent">Ralph Florent</a>,
+            <a href="https://github.com/asadahmedde">Asad Ahmed</a>
+        </span>
+        <span class="float-md-right">
+            Powered by <a href="https://jacobs-university.de">Jacobs University Bremen</a>
+        </span>
+    </div>
