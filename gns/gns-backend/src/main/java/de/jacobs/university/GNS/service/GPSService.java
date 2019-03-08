@@ -7,14 +7,13 @@ import lombok.Data;
 
 import com.ivkos.gpsd4j.client.GpsdClient;
 import com.ivkos.gpsd4j.client.GpsdClientOptions;
-import com.ivkos.gpsd4j.messages.PollMessage;
 import com.ivkos.gpsd4j.messages.reports.TPVReport;
+import com.ivkos.gpsd4j.messages.DeviceMessage;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.time.LocalDateTime;
 
 
 @Service
@@ -30,9 +29,13 @@ public class GPSService
     private static final int RECONNECT_ATTEMPTS = 5;
     private static final int RECONNECT_INTERVAL = 3000;
 
+    private static GpsdClient gpsdClient;
+    private static GPSLocation lastLocation;
+    private static LocalDateTime lastDateTime;
+
     // Internal class for representation of lat,long
     @Data
-    public class GPSLocation
+    public static class GPSLocation
     {
         private Double latitude;
         private Double longitude;
@@ -43,39 +46,19 @@ public class GPSService
         }
     }
 
+    // Constructor to create service
+    public GPSService() {
+        GPSService.initGPSDClient();
+        System.out.println("Client Setup");
+    }
+
     // Get the current GPS location
-    // TODO: Need to implement callback like Swift somehow...
-    public GPSLocation getGPSLocation()
-    {
-        GpsdClient client = GPSService.getGPSDClient();
-        client.start();
-
-        client.addErrorHandler(errorMessage -> { System.err.println("ERROR GPSD: " + errorMessage.getMessage());});
-
-        final GPSLocation[] gpsLocation = new GPSLocation[1];
-
-        client.sendCommand(new PollMessage(), pollMessageResponse -> {
-           List<TPVReport> tpvList = pollMessageResponse.getTPVList();
-           if (!tpvList.isEmpty())
-           {
-               TPVReport tpv = tpvList.get(0);
-
-               Double lat = tpv.getLatitude();
-               Double lon = tpv.getLongitude();
-               gpsLocation[0] = new GPSLocation(lat, lon);
-           }
-        });
-
-        // wait for some response from client
-        while(gpsLocation[0] == null) {
-            // wait ...
-        }
-
-        return gpsLocation[0];
+    public GPSLocation getGPSLocation() {
+        return GPSService.lastLocation;
     }
 
     // Creates and returns a GPSD client
-    private static GpsdClient getGPSDClient()
+    private static void initGPSDClient()
     {
         GpsdClientOptions options = new GpsdClientOptions();
 
@@ -85,6 +68,27 @@ public class GPSService
         options.setReconnectAttempts(RECONNECT_ATTEMPTS);
         options.setReconnectInterval(RECONNECT_INTERVAL);
 
-        return new GpsdClient("localhost", gpsdPort, options);
+        int port = GPSService.gpsdPort;
+
+        GPSService.gpsdClient = new GpsdClient("localhost", 2947, options)
+                .addErrorHandler(System.err::println)
+                .addHandler(TPVReport.class, tpv -> {
+                    // time
+                    GPSService.lastDateTime = tpv.getTime();
+                    System.out.println("Time: " + GPSService.lastDateTime.toString());
+
+                    // gps location
+                    GPSService.lastLocation = new GPSLocation(tpv.getLatitude(), tpv.getLongitude());
+                    System.out.printf("Lat: %f, Lon: %f\n", lastLocation.latitude, lastLocation.longitude);
+                })
+                .setSuccessfulConnectionHandler(client -> {
+                    DeviceMessage device = new DeviceMessage();
+                    device.setPath("/dev/ttyUSB0");
+                    device.setNative(true);
+
+                    client.sendCommand(device);
+                    client.watch();
+                });
+        GPSService.gpsdClient.start();
     }
 }
