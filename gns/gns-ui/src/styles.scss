@@ -1,30 +1,7 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-    background-color: #f0f0f2;
-    margin: 0;
-    padding: 0;
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    
+.gns-text-w {
+    color: #fff;
 }
-div {
-    width: 600px;
-    margin: 5em auto;
-    padding: 50px;
-    background-color: #fff;
-    border-radius: 1em;
-}
-a:link, a:visited {
-    color: #38488f;
-    text-decoration: none;
-}
-@media (max-width: 700px) {
-    body {
-        background-color: #fff;
-    }
-    div {
-        width: auto;
-        margin: 0 auto;
-        border-radius: 0;
-        padding: 1em;
-    }
+
+.gns-text-k {
+    color: #eee;
 }

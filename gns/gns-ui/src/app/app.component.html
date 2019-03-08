@@ -1,9 +1,20 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<h1 style="text-align:center">
-  Welcome to GPS Notebook System!
-</h1>
-<div>
-  <h2> GNS Coming soon </h2>
-  <p> GNS (GPS Notebook System) creates a history of geo-location notebook.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">GNS Notebook</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav justify-content-center">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/home']">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/notebooks']">Notebooks</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>
