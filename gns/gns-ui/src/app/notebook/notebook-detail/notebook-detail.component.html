@@ -1,3 +1,69 @@
-<p>
-  notebook works!
-</p>
+<div class="card-header bg-primary">
+  <h5 class="gns-text-w"> Notebooks </h5>
+</div>
+
+<div class="card-body">
+  <h5 class="card-title">
+    Notebook Detail
+    <br>
+    <span class="small text-muted"> See your notes in more details </span>
+  </h5>
+  <hr class="gns-hr-separator gns-color-primary" />
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="clearfix" style="margin-bottom: 0.75rem">
+          <div class="float-left">
+            <a class="btn btn-primary" [routerLink]="['/notebooks', 0, 'edit']"> New
+            </a>
+          </div>
+          <div class="float-right">
+            <a class="btn btn-outline-primary gns-btn-margin-left"
+              [routerLink]="['/notebooks', notebook.id, 'edit']"> Edit </a>
+            <a class="btn btn-outline-secondary gns-btn-margin-left" [routerLink]="['/notebooks']">
+              Back </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 0.75rem">
+      <div class="col-md-6">
+        <table class="table text-left">
+          <thead class="thead-light">
+            <tr>
+              <th colspan="2">General Information</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th> Code </th>
+              <td>{{ notebook.noteId }}</td>
+            </tr>
+            <tr>
+              <th> Description </th>
+              <td>{{ notebook.description }} </td>
+            </tr>
+            <tr>
+              <th> Latitude </th>
+              <td>{{ notebook.latitude | number: '2.8-8' }} </td>
+            </tr>
+            <tr>
+              <th> Longitude </th>
+              <td>{{ notebook.longitude | number: '2.8-8' }} </td>
+            </tr>
+            <tr>
+              <th> Last Updated </th>
+              <td>{{ notebook.date | date: 'mediumDate' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <div class="gns-note-holder">
+          <p class="text-left"><strong>Notes:</strong></p>
+          <p class="lead text-justify"> {{ notebook.note }} </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

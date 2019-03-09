@@ -4,6 +4,7 @@ import { catchError } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 
 import { Notebook } from '../shared/models/notebook.model';
+import { NOTEBOOKS } from '../shared/constants/gns.constants';
 
 @Injectable()
 export class NotebookService {
@@ -14,8 +15,12 @@ export class NotebookService {
 
     getAll(): Observable<Notebook[] | string> {
         // return this.http.get(this.baseUrl);
-        
         return of(NOTEBOOKS).pipe( catchError(this.handleError) );
+    }
+
+    getOne(id: number): Observable<Notebook | string> {
+        const found: Notebook = NOTEBOOKS.find(n => n.id === id );
+        return of(found).pipe( catchError(this.handleError) );
     }
 
     search(term: string): Observable<Notebook[] | string> {
@@ -35,46 +40,6 @@ export class NotebookService {
             // The response body may contain clues as to what went wrong,
             errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
         }
-        console.error(errorMessage);
         return Observable.throw(errorMessage);
     }
 }
-
-const NOTEBOOKS: Notebook[] = [
-    {
-        id: 1,
-        noteId: 'AA00-00001',
-        description: 'Sample note 1',
-        note: 'Very very very long note',
-        latitude: 58.283237,
-        longitude: 5.298438,
-        date: new Date(2010, 10, 10),
-        createdOn: new Date(),
-        createdBy: 'Root User'
-
-    },
-    {
-        id: 2,
-        noteId: 'AA00-00002',
-        description: 'Sample note 2',
-        note: 'Very very very long note',
-        latitude: 16.283237,
-        longitude: -5.298438,
-        date: new Date(2015, 3, 7),
-        createdOn: new Date(),
-        createdBy: 'Root User'
-
-    },
-    {
-        id: 3,
-        noteId: 'AA00-00003',
-        description: 'Sample note 3',
-        note: 'Very very very long note',
-        latitude: 23.456,
-        longitude: -0.78,
-        date: new Date(),
-        createdOn: new Date(),
-        createdBy: 'Root User'
-
-    }
-]

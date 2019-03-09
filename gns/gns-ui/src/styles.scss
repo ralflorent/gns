@@ -5,3 +5,36 @@
 .gns-text-k {
     color: #eee;
 }
+$margin-size: 5px;
+.gns-btn-margin {
+    margin: $margin-size;
+    &-top {
+        margin: $margin-size 0 0 0;
+    }
+    &-right {
+        margin: 0 $margin-size 0 0;
+    }
+    &-bottom {
+        margin: 0 0 $margin-size 0;
+    }
+    &-left {
+        margin: 0 0 0 $margin-size;
+    }
+}
+
+.gns-hr-separator {
+    height: 1px; 
+    border: none; 
+    background-color: #000; 
+    width: 60%; 
+    text-align: center; 
+    margin: 1.5rem auto;
+
+    &.gns-color-primary {
+        color: #eee; 
+    }
+
+    &.gns-color-secondary {
+        color: #000; 
+    }
+}
