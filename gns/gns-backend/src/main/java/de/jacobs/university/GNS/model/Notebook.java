@@ -3,11 +3,14 @@
 package de.jacobs.university.GNS.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "notebooks")
+@Where(clause = "is_deleted=0")
 @Data
 public class Notebook
 {
@@ -40,4 +43,7 @@ public class Notebook
 
     @Column(name = "created_by")
     private String createdByUserName;
+
+    @Column(name = "is_deleted")
+    private int isDeleted;
 }
