@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NotebookService } from '../notebook.service';
 import { Notebook } from 'src/app/shared/models/notebook.model';
 
@@ -9,13 +10,11 @@ import { Notebook } from 'src/app/shared/models/notebook.model';
 })
 export class NotebooksComponent implements OnInit {
 
-  readonly pageTitle: string = `Notebooks`;
-
   notebooks: Notebook[] = [];
   searchTerm: string = '';
   errorMsg: string = '';
 
-  constructor(private service: NotebookService) { }
+  constructor(private service: NotebookService, private router: Router) { }
 
   ngOnInit() {
     this.service.getAll()
