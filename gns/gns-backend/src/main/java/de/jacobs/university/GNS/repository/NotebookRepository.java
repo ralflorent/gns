@@ -12,14 +12,21 @@ public interface NotebookRepository extends JpaRepository<Notebook, Long>
 {
     // Custom find all using soft delete field
     @Override
-    @Query("SELECT e FROM #{#entityName} e WHERE e.is_deleted=0")
+    @Query(value = "SELECT * FROM notebooks WHERE is_deleted=0", nativeQuery = true)
     List<Notebook> findAll();
 
+    // Get all notebooks including soft deleted notebooks
+    @Query(value = "SELECT * FROM notebooks", nativeQuery = true)
+    List<Notebook> findAllIncludingDeleted();
+
     // Get notebooks that have been soft deleted
-    @Query("SELECT e FROM #{#entityName} e WHERE e.is_deleted=1")
+    @Query(value = "SELECT * FROM notebooks WHERE is_deleted=1", nativeQuery = true)
     List<Notebook> deletedNotebooks();
 
     // Soft delete a notebook
-    @Query("UPDATE #{#entityName} e set e.is_deleted=1 where e.id=?1")
+    @Query(value = "UPDATE notebooks SET is_deleted=1 WHERE id=?1", nativeQuery = true)
     void softDelete(Long id);
+
+    // Get last record
+    Notebook findTopByOrderByIdDesc();
 }
