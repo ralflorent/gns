@@ -9,6 +9,7 @@ import de.jacobs.university.GNS.model.Notebook;
 import de.jacobs.university.GNS.repository.NotebookRepository;
 import de.jacobs.university.GNS.response.NotebookCreateResponse;
 import de.jacobs.university.GNS.response.NotebookListResponse;
+import de.jacobs.university.GNS.response.NotebookUpdateResponse;
 import de.jacobs.university.GNS.service.NotebookSaveResult;
 import de.jacobs.university.GNS.service.NotebookService;
 
@@ -79,6 +80,31 @@ public class NotebookController
             }
 
             return NotebookCreateResponse.failResponse("Unknown error occurred");
+        }
+    }
+
+    // Update an existing notebook
+    @RequestMapping(value = "notes/update", method = RequestMethod.POST)
+    public NotebookUpdateResponse updateNotebook(@RequestBody de.jacobs.university.GNS.request.Notebook notebook)
+    {
+        boolean success = notebookService.updateNotebook(notebook.getId(), notebook.getNote(), notebook.getDescription());
+        if (success) {
+            return NotebookUpdateResponse.successResponse("Notebook was updated successfully");
+        }
+        else {
+            return NotebookUpdateResponse.failResponse("Invalid id for notebook");
+        }
+    }
+
+    // Delete (soft delete) a notebook
+    @RequestMapping(value = "notes/delete", method = RequestMethod.DELETE)
+    public NotebookUpdateResponse deleteNotebook(@RequestBody de.jacobs.university.GNS.request.Notebook notebook)
+    {
+        if (notebookService.softDeleteNotebook(notebook.getId())) {
+            return NotebookUpdateResponse.successResponse("Notebook was deleted successfully");
+        }
+        else {
+            return NotebookUpdateResponse.failResponse("Failed to delete notebook. Invalid ID.");
         }
     }
 }

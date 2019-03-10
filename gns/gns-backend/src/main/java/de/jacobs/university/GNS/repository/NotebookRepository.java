@@ -25,7 +25,7 @@ public interface NotebookRepository extends JpaRepository<Notebook, Long>
 
     // Soft delete a notebook
     @Query(value = "UPDATE notebooks SET is_deleted=1 WHERE id=?1", nativeQuery = true)
-    void softDelete(Long id);
+    boolean softDelete(Long id);
 
     // Get last record
     Notebook findTopByOrderByIdDesc();
