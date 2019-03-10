@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotebookService
@@ -68,6 +69,45 @@ public class NotebookService
         }
         else {
             return new NotebookSaveResult(savedNotebook, null);
+        }
+    }
+
+    // Update an existing notebook's note and description
+    public boolean updateNotebook(Long id, String note, String description)
+    {
+        Optional<Notebook> nbOptional = repo.findById(id);
+        if (nbOptional.isPresent())
+        {
+            Notebook nb = nbOptional.get();
+
+            nb.setDescription(description);
+            nb.setNote(note);
+
+            if (repo.save(nb) != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;       // invalid id
+        }
+    }
+
+    // Soft delete a notebook
+    public boolean softDeleteNotebook(Long id)
+    {
+        // get notebook and set is deleted
+        Optional<Notebook> nbOptional = repo.findById(id);
+        if (nbOptional.isPresent())
+        {
+            Notebook nb = nbOptional.get();
+            nb.setIsDeleted(1);
+            return ((repo.save(nb)) != null);
+        }
+        else {
+            return false;
         }
     }
 
