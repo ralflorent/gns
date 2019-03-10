@@ -10,6 +10,7 @@ import com.ivkos.gpsd4j.client.GpsdClientOptions;
 import com.ivkos.gpsd4j.messages.reports.TPVReport;
 import com.ivkos.gpsd4j.messages.DeviceMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +20,9 @@ import java.time.LocalDateTime;
 @Service
 public class GPSService
 {
-    @Value("${gpsd.connection.timeout}")
     private static int connectionTimeout;
-
-    @Value("${gpsd.port}")
     private static int gpsdPort;
+    private static String gpsdDevice;
 
     private static final int IDLE_TIMEOUT = 30;
     private static final int RECONNECT_ATTEMPTS = 5;
@@ -47,14 +46,22 @@ public class GPSService
     }
 
     // Constructor to create service
-    public GPSService() {
+    @Autowired
+    public GPSService(@Value("${gpsd.port}") int gpsdPort, @Value("${gpsd.device}") String gpsdDevice, @Value("${gpsd.connection.timeout}") int connectionTimeout) {
+        GPSService.gpsdDevice = gpsdDevice;
+        GPSService.gpsdPort = gpsdPort;
+        GPSService.connectionTimeout = connectionTimeout;
         GPSService.initGPSDClient();
-        System.out.println("Client Setup");
     }
 
     // Get the current GPS location
     public GPSLocation getGPSLocation() {
         return GPSService.lastLocation;
+    }
+
+    // Get the current date time
+    public LocalDateTime getDateTime() {
+        return GPSService.lastDateTime;
     }
 
     // Creates and returns a GPSD client
@@ -68,22 +75,20 @@ public class GPSService
         options.setReconnectAttempts(RECONNECT_ATTEMPTS);
         options.setReconnectInterval(RECONNECT_INTERVAL);
 
-        int port = GPSService.gpsdPort;
-
-        GPSService.gpsdClient = new GpsdClient("localhost", 2947, options)
+        GPSService.gpsdClient = new GpsdClient("localhost", GPSService.gpsdPort, options)
                 .addErrorHandler(System.err::println)
                 .addHandler(TPVReport.class, tpv -> {
                     // time
                     GPSService.lastDateTime = tpv.getTime();
-                    System.out.println("Time: " + GPSService.lastDateTime.toString());
+                    //System.out.println("Time: " + GPSService.lastDateTime.toString());
 
                     // gps location
                     GPSService.lastLocation = new GPSLocation(tpv.getLatitude(), tpv.getLongitude());
-                    System.out.printf("Lat: %f, Lon: %f\n", lastLocation.latitude, lastLocation.longitude);
+                    //System.out.printf("Lat: %f, Lon: %f\n", lastLocation.latitude, lastLocation.longitude);
                 })
                 .setSuccessfulConnectionHandler(client -> {
                     DeviceMessage device = new DeviceMessage();
-                    device.setPath("/dev/ttyUSB0");
+                    device.setPath(GPSService.gpsdDevice);
                     device.setNative(true);
 
                     client.sendCommand(device);
