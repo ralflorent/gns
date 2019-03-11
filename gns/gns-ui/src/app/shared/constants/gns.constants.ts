@@ -1,4 +1,25 @@
 import { Notebook } from '../models/notebook.model';
+
+export const VALIDATION_RULES = {
+    notebook: {
+        description: {
+            rules: {
+                REQUIRED: true,
+                MIN_LENGTH: 3,
+                MAX_LENGTH: 250
+            },
+            messages: {
+                required: 'Please enter a description',
+                minlength: 'Must be at least 3 characters',
+                maxlength: 'Must be less than 250 characters'
+            }
+        },
+        note: {
+            rules: { REQUIRED: true },
+            messages: { required: 'Please enter a note'}
+        }
+    }
+}
 export const NOTEBOOKS: Notebook[] = [
     {
         id: 1,

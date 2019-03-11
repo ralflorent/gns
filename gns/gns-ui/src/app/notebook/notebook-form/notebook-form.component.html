@@ -1,15 +1,89 @@
 <div class="card-header bg-primary">
-    <h5 class="gns-text-w"> Notebooks </h5>
+  <h5 class="gns-text-w"> Notebooks </h5>
+</div>
+
+<div class="card-body text-left">
+  <h5 class="card-title text-center">
+    Notebook Detail
+    <br>
+    <span class="small text-muted"> Add your note here </span>
+  </h5>
+  <hr class="gns-hr-separator gns-color-primary" />
+  <div class="container">
+    <form [formGroup]="form" novalidate="novalidate" autocomplete="off">
+      <div class="form-group row">
+        <label for="code" class="col-sm-2 col-form-label">Code</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="code"
+            formControlName="noteId">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="latitude" class="col-sm-2 col-form-label">Latitude</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="latitude"
+            formControlName="latitude">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="longitude" class="col-sm-2 col-form-label">Longitude</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="longitude"
+            formControlName="longitude">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="date" class="col-sm-2 col-form-label">Last Updated</label>
+        <div class="col-sm-10">
+          <input type="text" readonly class="form-control-plaintext" id="date"
+            formControlName="date">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="description"
+            placeholder="Title your note here..." formControlName="description" />
+          <span class="gns-help-block" *ngIf="errorFields?.description">
+            {{ errorFields?.description }}
+          </span>
+        </div>
+
+      </div>
+
+      <div class="form-group row">
+        <label for="note" class="col-sm-2 col-form-label">Note</label>
+        <div class="col-sm-10">
+          <textarea class="form-control" name="note" id="note" rows="3"
+            placeholder="Enter your note here..." formControlName="note">
+              </textarea>
+          <span class="gns-help-block" *ngIf="errorFields?.note">
+            {{ errorFields?.note }}</span>
+        </div>
+
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-10 offset-sm-2">
+          <button type="submit" value="submit" class="btn btn-outline-primary"
+            [disabled]="form.invalid || loading" (click)="submit()">
+            <span [hidden]="loading">Save</span>
+            <span [hidden]="!loading">
+              Saving... &nbsp;
+              <i class="fa fa-spinner fa-spin"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-  
-  <div class="card-body">
-    <h5 class="card-title">
-      Notebook Detail
-      <br>
-      <span class="small text-muted"> Add your note here </span>
-    </h5>
-    <hr class="gns-hr-separator gns-color-primary" />
-    <div class="container">
-      <h1 class="display-4">Not implemented yet </h1>
-    </div>
-  </div>
+
+  <!-- <div class="rf-contact-feedback" *ngIf="!loading && !!messageSent">
+      <div class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Well done, {{ this.form.value?.name }}!</h4>
+        <p>Aww yay, your message has been sent successfully! Thank you for your interest in being in
+          touch with me. I'll get back to you ASAP.
+          <a class="alert-link" (click)="resetForm()"> [Send more] </a>
+        </p>
+      </div>
+    </div> -->
+</div>
