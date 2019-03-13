@@ -90,7 +90,9 @@ public class GPSService
                     //System.out.printf("Lat: %f, Lon: %f\n", lastLocation.latitude, lastLocation.longitude);
 
                     // log date/time and location to csv file
-                    logger.addLogEntry(lastLocation, lastDateTime);
+                    if (lastLocation != null && lastDateTime != null) {
+                        logger.addLogEntry(lastLocation, lastDateTime);
+                    }
                 })
                 .setSuccessfulConnectionHandler(client -> {
                     DeviceMessage device = new DeviceMessage();
