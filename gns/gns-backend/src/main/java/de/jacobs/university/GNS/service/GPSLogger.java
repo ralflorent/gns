@@ -99,10 +99,15 @@ public class GPSLogger
     {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(filepath.toFile(), true)))
         {
-            // extract date and time into separate strings
+            // extract date
             LocalDateTime dateTime = item.getDateTime();
             String date = String.format("%d-%02d-%02d", dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth());
-            String time = String.format("%02d:%02d:%02d", dateTime.getHour(), dateTime.getMinute(), dateTime.getSecond());
+
+            // extract time and make sure 00 is included in the string
+            String hrs = dateTime.getHour() == 0 ? "00" : String.format("%02d", dateTime.getHour());
+            String mins = dateTime.getMinute() == 0 ? "00" : String.format("%02d", dateTime.getMinute());
+            String secs = dateTime.getSecond() == 0 ? "00" : String.format("%02d", dateTime.getSecond());
+            String time = String.format("%s:%s:%s", hrs, mins, secs);
 
             // latitude
             writer.write(item.location.getLatitude().toString() + ",");
