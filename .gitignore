@@ -172,3 +172,4 @@ fabric.properties
 
 # GPS Logging
 gns/gns-backend/gps_logs/
+gns/gns-backend/gps_logs/*
