@@ -186,6 +186,7 @@ fabric.properties
 .*.lb
 # GPS Logging
 gns/gns-backend/gps_logs/
+gns/gns-backend/gps_logs/*
 
 ## Intermediate documents:
 *.dvi
