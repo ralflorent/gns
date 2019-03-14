@@ -14,7 +14,7 @@
       <div class="col-sm-12">
         <div class="clearfix" style="margin-bottom: 0.75rem">
           <div class="float-left">
-            <a class="btn btn-primary" [routerLink]="['/notebooks', 0, 'edit']"> New
+            <a class="btn btn-primary" [routerLink]="['/notebooks', '0', 'edit']"> New
             </a>
           </div>
           <div class="float-right">
@@ -37,23 +37,23 @@
           <tbody>
             <tr>
               <th> Code </th>
-              <td>{{ notebook.noteId }}</td>
+              <td>{{ notebook?.noteId }}</td>
             </tr>
             <tr>
               <th> Description </th>
-              <td>{{ notebook.description }} </td>
+              <td>{{ notebook?.description }} </td>
             </tr>
             <tr>
               <th> Latitude </th>
-              <td>{{ notebook.latitude | number: '2.8-8' }} </td>
+              <td>{{ notebook?.latitude | number: '2.8-8' }} </td>
             </tr>
             <tr>
               <th> Longitude </th>
-              <td>{{ notebook.longitude | number: '2.8-8' }} </td>
+              <td>{{ notebook?.longitude | number: '2.8-8' }} </td>
             </tr>
             <tr>
               <th> Last Updated </th>
-              <td>{{ notebook.date | date: 'mediumDate' }}</td>
+              <td>{{ notebook?.gnsDate | date: 'mediumDate' }}</td>
             </tr>
           </tbody>
         </table>
@@ -61,7 +61,7 @@
       <div class="col-md-6">
         <div class="gns-note-holder">
           <p class="text-left"><strong>Notes:</strong></p>
-          <p class="lead text-justify"> {{ notebook.note }} </p>
+          <p class="lead text-justify"> {{ notebook?.note }} </p>
         </div>
       </div>
     </div>

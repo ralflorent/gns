@@ -5,7 +5,7 @@ export interface Notebook {
     note: string;
     latitude: number;
     longitude: number;
-    date: string | Date;
+    gnsDate: string | Date;
     createdOn?: string | Date;
     createdBy?: string;
 }
