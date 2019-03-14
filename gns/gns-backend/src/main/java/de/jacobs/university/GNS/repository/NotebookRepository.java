@@ -29,4 +29,8 @@ public interface NotebookRepository extends JpaRepository<Notebook, Long>
 
     // Get last record
     Notebook findTopByOrderByIdDesc();
+
+    // Search by description
+    @Query(value = "SELECT * FROM notebooks WHERE description LIKE %?1%", nativeQuery = true)
+    List<Notebook> searchByDescription(String query);
 }

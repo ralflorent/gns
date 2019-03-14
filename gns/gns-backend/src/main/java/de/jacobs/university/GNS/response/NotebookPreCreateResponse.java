@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class NotebookPreCreateResponse
 {
     private String note_id;
-    private LocalDateTime dateTime;
+    private LocalDateTime gns_date;
     private Double latitude;
     private Double longitude;
 
@@ -22,7 +22,7 @@ public class NotebookPreCreateResponse
         response.setNote_id(nextNoteID);
         response.setLatitude(latitude);
         response.setLongitude(longitude);
-        response.setDateTime(dateTime);
+        response.setGns_date(dateTime);
 
         return response;
     }
