@@ -91,7 +91,7 @@ public class NotebookController
         Notebook newNotebook = result.getNewNotebook();
 
         if (newNotebook != null) {
-            return Response.successResponse("Notebook created successfully", newNotebook);
+            return Response.successResponse("Notebook created successfully", de.jacobs.university.GNS.response.Notebook.buildFromEntity(newNotebook));
         }
         else
         {
@@ -137,7 +137,7 @@ public class NotebookController
     {
         Notebook newNotebook = notebookService.updateNotebook(notebook.getId(), notebook.getNote(), notebook.getDescription());
         if (newNotebook != null) {
-            return Response.successResponse("Notebook was updated successfully", newNotebook);
+            return Response.successResponse("Notebook was updated successfully", de.jacobs.university.GNS.response.Notebook.buildFromEntity(newNotebook));
         }
         else {
             return Response.failureResponse("Invalid id for notebook");
