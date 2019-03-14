@@ -14,14 +14,12 @@ import de.jacobs.university.GNS.service.NotebookSaveResult;
 import de.jacobs.university.GNS.service.NotebookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:80", "http://localhost:4200"})
 public class NotebookController
 {
     private NotebookService notebookService;
@@ -33,7 +31,7 @@ public class NotebookController
     }
 
     // Return all existing notebooks
-    @RequestMapping(value = "notes/list", method = RequestMethod.GET)
+    @RequestMapping(value = "api/v1/notes/list", method = RequestMethod.GET)
     public NotebookListResponse getNotebooks()
     {
         List<Notebook> entities = notebookService.getAllNotebooks();
@@ -43,7 +41,7 @@ public class NotebookController
     }
 
     // Create a new notebook
-    @RequestMapping(value = "notes/add", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/notes/add", method = RequestMethod.POST)
     public NotebookCreateResponse addNotebook(@RequestBody de.jacobs.university.GNS.request.Notebook notebook)
     {
         // check for required fields in JSON
@@ -84,7 +82,7 @@ public class NotebookController
     }
 
     // Update an existing notebook
-    @RequestMapping(value = "notes/update", method = RequestMethod.POST)
+    @RequestMapping(value = "api/v1/notes/update", method = RequestMethod.POST)
     public NotebookUpdateResponse updateNotebook(@RequestBody de.jacobs.university.GNS.request.Notebook notebook)
     {
         boolean success = notebookService.updateNotebook(notebook.getId(), notebook.getNote(), notebook.getDescription());
@@ -97,7 +95,7 @@ public class NotebookController
     }
 
     // Delete (soft delete) a notebook
-    @RequestMapping(value = "notes/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "api/v1/notes/delete", method = RequestMethod.DELETE)
     public NotebookUpdateResponse deleteNotebook(@RequestBody de.jacobs.university.GNS.request.Notebook notebook)
     {
         if (notebookService.softDeleteNotebook(notebook.getId())) {
