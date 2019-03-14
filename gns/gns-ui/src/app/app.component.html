@@ -1,9 +1,33 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<h1 style="text-align:center">
-  Welcome to GPS Notebook System!
-</h1>
-<div>
-  <h2> GNS Coming soon </h2>
-  <p> GNS (GPS Notebook System) creates a history of geo-location notebook.</p>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">GNS Notebook</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav justify-content-center">
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/home']">Home</a>
+            </li>
+            <li class="nav-item" routerLinkActive="active">
+                <a class="nav-link" [routerLink]="['/notebooks']">Notebooks</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="card text-center">
+        <router-outlet></router-outlet>
+        <div class="card-footer text-muted">
+            <span class="float-md-left">
+                Developed by
+                <a href="https://github.com/ralflorent">Ralph Florent</a>,
+                <a href="https://github.com/asadahmedde">Asad Ahmed</a>
+            </span>
+            <span class="float-md-right">
+                Powered by <a href="https://jacobs-university.de">Jacobs University Bremen</a>
+            </span>
+        </div>
+    </div>
 </div>
-<router-outlet></router-outlet>
