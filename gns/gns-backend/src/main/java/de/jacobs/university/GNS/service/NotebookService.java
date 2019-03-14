@@ -90,9 +90,20 @@ public class NotebookService
     }
 
     // Update an existing notebook's note and description
-    public Notebook updateNotebook(Long id, String note, String description) {
+    public Notebook updateNotebook(Long id, String note, String description)
+    {
         Optional<Notebook> nbOptional = repo.findById(id);
-        return nbOptional.get();
+        if (nbOptional.isPresent())
+        {
+            Notebook nb = nbOptional.get();
+
+            nb.setDescription(description);
+            nb.setNote(note);
+
+            return repo.save(nb);
+        }
+
+        return null;
     }
 
     // Soft delete a notebook
