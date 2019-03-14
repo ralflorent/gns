@@ -28,7 +28,7 @@ export const NOTEBOOKS: Notebook[] = [
         note: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
         latitude: 58.283237,
         longitude: 5.298438,
-        date: new Date(2010, 10, 10),
+        gnsDate: new Date(2010, 10, 10),
         createdOn: new Date(),
         createdBy: 'Root User'
 
@@ -42,7 +42,7 @@ export const NOTEBOOKS: Notebook[] = [
         Urna duis convallis convallis tellus id interdum velit. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis. Accumsan in nisl nisi scelerisque eu ultrices. Vel turpis nunc eget lorem dolor sed viverra ipsum nunc. Venenatis cras sed felis eget velit. Ut diam quam nulla porttitor. Tellus id interdum velit laoreet id donec ultrices. Venenatis a condimentum vitae sapien pellentesque habitant morbi. Vitae purus faucibus ornare suspendisse sed nisi. Eu lobortis elementum nibh tellus molestie.`,
         latitude: 16.283237,
         longitude: -5.298438,
-        date: new Date(2015, 3, 7),
+        gnsDate: new Date(2015, 3, 7),
         createdOn: new Date(),
         createdBy: 'Root User'
 
@@ -58,7 +58,7 @@ export const NOTEBOOKS: Notebook[] = [
         In hac habitasse platea dictumst vestibulum. Tellus orci ac auctor augue mauris augue. Mattis pellentesque id nibh tortor id aliquet. At lectus urna duis convallis convallis. Quisque non tellus orci ac auctor augue mauris augue neque. Sit amet commodo nulla facilisi nullam vehicula ipsum. Aenean euismod elementum nisi quis eleifend quam. Id velit ut tortor pretium viverra suspendisse potenti nullam ac. Luctus venenatis lectus magna fringilla. Aliquet nec ullamcorper sit amet risus nullam eget felis eget. Ridiculus mus mauris vitae ultricies leo integer malesuada. Aliquam eleifend mi in nulla posuere sollicitudin aliquam. Tempor commodo ullamcorper a lacus. Condimentum id venenatis a condimentum vitae sapien. Faucibus scelerisque eleifend donec pretium vulputate sapien nec sagittis. Est ante in nibh mauris cursus.`,
         latitude: 23.456,
         longitude: -0.78,
-        date: new Date(),
+        gnsDate: new Date(),
         createdOn: new Date(),
         createdBy: 'Root User'
 
