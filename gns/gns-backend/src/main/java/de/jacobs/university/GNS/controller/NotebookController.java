@@ -6,16 +6,18 @@
 package de.jacobs.university.GNS.controller;
 
 import de.jacobs.university.GNS.model.Notebook;
+
 import de.jacobs.university.GNS.repository.NotebookRepository;
-import de.jacobs.university.GNS.response.NotebookCreateResponse;
-import de.jacobs.university.GNS.response.NotebookListResponse;
-import de.jacobs.university.GNS.response.NotebookUpdateResponse;
+import de.jacobs.university.GNS.response.*;
+
+import de.jacobs.university.GNS.service.GPSService;
 import de.jacobs.university.GNS.service.NotebookSaveResult;
 import de.jacobs.university.GNS.service.NotebookService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -23,11 +25,13 @@ import java.util.List;
 public class NotebookController
 {
     private NotebookService notebookService;
+    private GPSService gpsService;
 
     // Constructor
     @Autowired
-    public NotebookController(NotebookRepository repo, NotebookService notebookService) {
+    public NotebookController(NotebookRepository repo, NotebookService notebookService, GPSService gpsService) {
         this.notebookService = notebookService;
+        this.gpsService = gpsService;
     }
 
     // Return all existing notebooks
@@ -38,6 +42,19 @@ public class NotebookController
         NotebookListResponse response = new NotebookListResponse(entities);
 
         return response;
+    }
+
+    // Returns information on one existing notebook
+    @RequestMapping(value = "api/v1/notes/detail", method = RequestMethod.GET)
+    public Response getNotebookDetail(@RequestParam Long id)
+    {
+        Notebook nb = notebookService.getNotebook(id);
+        if (nb != null) {
+            return Response.successResponse("Fetched notebook with ID: " + id.toString(), de.jacobs.university.GNS.response.Notebook.buildFromEntity(nb));
+        }
+        else {
+            return Response.failureResponse("Failed to fetch notebook. Invalid ID: " + id.toString());
+        }
     }
 
     // Create a new notebook
@@ -78,6 +95,25 @@ public class NotebookController
             }
 
             return NotebookCreateResponse.failResponse("Unknown error occurred");
+        }
+    }
+
+    // Get the details for the next notebook that is about to be created
+    @RequestMapping(value = "api/v1/notes/add", method = RequestMethod.GET)
+    public Response getNotebookPrecreationInfo()
+    {
+        // get date/time and gps location
+        GPSService.GPSLocation location = gpsService.getGPSLocation();
+        LocalDateTime dateTime = gpsService.getDateTime();
+
+        if (location == null || dateTime == null) {
+            return Response.failureResponse("Failed to fetch location and date from GPS");
+        }
+        else
+        {
+            String nextID = notebookService.getNextValidNotebookID();
+            NotebookPreCreateResponse data = NotebookPreCreateResponse.build(nextID, location.getLatitude(), location.getLongitude(), dateTime);
+            return Response.successResponse("Fetched notebook successfully", data);
         }
     }
 
