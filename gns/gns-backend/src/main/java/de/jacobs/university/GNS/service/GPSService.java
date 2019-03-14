@@ -32,6 +32,8 @@ public class GPSService
     private static GPSLocation lastLocation;
     private static LocalDateTime lastDateTime;
 
+    private static GPSLogger logger;
+
     // Internal class for representation of lat,long
     @Data
     public static class GPSLocation
@@ -47,7 +49,8 @@ public class GPSService
 
     // Constructor to create service
     @Autowired
-    public GPSService(@Value("${gpsd.port}") int gpsdPort, @Value("${gpsd.device}") String gpsdDevice, @Value("${gpsd.connection.timeout}") int connectionTimeout) {
+    public GPSService(@Value("${gpsd.port}") int gpsdPort, @Value("${gpsd.device}") String gpsdDevice, @Value("${gpsd.connection.timeout}") int connectionTimeout, GPSLogger logger) {
+        GPSService.logger = logger;
         GPSService.gpsdDevice = gpsdDevice;
         GPSService.gpsdPort = gpsdPort;
         GPSService.connectionTimeout = connectionTimeout;
@@ -85,6 +88,11 @@ public class GPSService
                     // gps location
                     GPSService.lastLocation = new GPSLocation(tpv.getLatitude(), tpv.getLongitude());
                     //System.out.printf("Lat: %f, Lon: %f\n", lastLocation.latitude, lastLocation.longitude);
+
+                    // log date/time and location to csv file
+                    if (lastLocation != null && lastDateTime != null) {
+                        logger.addLogEntry(lastLocation, lastDateTime);
+                    }
                 })
                 .setSuccessfulConnectionHandler(client -> {
                     DeviceMessage device = new DeviceMessage();

@@ -11,13 +11,11 @@ import java.util.List;
 @Data
 public class NotebookListResponse
 {
-    private String status;
     private List<Notebook> notebooks;
 
     // Construct with notebook entity list
     public NotebookListResponse(List<de.jacobs.university.GNS.model.Notebook> entities)
     {
-        status = "success";
         notebooks = new ArrayList<>();
 
         for (de.jacobs.university.GNS.model.Notebook entity : entities) {

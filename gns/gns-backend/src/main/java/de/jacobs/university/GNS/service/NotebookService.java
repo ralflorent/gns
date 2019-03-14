@@ -31,6 +31,23 @@ public class NotebookService
         return repo.findAll();
     }
 
+    // Search for notes by description
+    public List<Notebook> searchNotebooks(String searchString) {
+        return repo.searchByDescription(searchString);
+    }
+
+    // Get one notebook by id
+    public Notebook getNotebook(Long id)
+    {
+        Optional<Notebook> nbOptional = repo.findById(id);
+        if (nbOptional.isPresent()) {
+            return nbOptional.get();
+        }
+        else {
+            return null;
+        }
+    }
+
     // Add a new notebook. Returns null error object on success. Returns error object on failure.
     public NotebookSaveResult addNotebook(String username, String description, String note)
     {
@@ -73,7 +90,7 @@ public class NotebookService
     }
 
     // Update an existing notebook's note and description
-    public boolean updateNotebook(Long id, String note, String description)
+    public Notebook updateNotebook(Long id, String note, String description)
     {
         Optional<Notebook> nbOptional = repo.findById(id);
         if (nbOptional.isPresent())
@@ -83,16 +100,10 @@ public class NotebookService
             nb.setDescription(description);
             nb.setNote(note);
 
-            if (repo.save(nb) != null) {
-                return true;
-            }
-            else {
-                return false;
-            }
+            return repo.save(nb);
         }
-        else {
-            return false;       // invalid id
-        }
+
+        return null;
     }
 
     // Soft delete a notebook
@@ -113,7 +124,7 @@ public class NotebookService
 
     // Get the next valid user viewable notebook ID
     // ID Format: SS-DDDD
-    private String getNextValidNotebookID()
+    public String getNextValidNotebookID()
     {
         // get last record in db
         Notebook last = repo.findTopByOrderByIdDesc();
