@@ -53,9 +53,16 @@ public class NotebookController
 
     // Search notebook by description
     @RequestMapping(value = "api/v1/notes/search", method = RequestMethod.GET)
-    public Response searchNotebooks(@RequestParam(name = "q") String query) {
-        List<Notebook> notebooks = notebookService.searchNotebooks(query);
-        return Response.successResponse("Notebook search by: " + query, notebooks);
+    public Response searchNotebooks(@RequestParam(name = "q") String query)
+    {
+        List<Notebook> resultList = notebookService.searchNotebooks(query);
+        List<de.jacobs.university.GNS.response.Notebook> notebooks = new ArrayList<>();
+
+        for (Notebook entity : resultList) {
+            notebooks.add(de.jacobs.university.GNS.response.Notebook.buildFromEntity(entity));
+        }
+
+        return Response.successResponse("Query returned: " + notebooks.size() + " result(s)", notebooks);
     }
 
     // Returns information on one existing notebook
