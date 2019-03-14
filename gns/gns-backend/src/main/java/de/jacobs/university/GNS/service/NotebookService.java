@@ -31,6 +31,11 @@ public class NotebookService
         return repo.findAll();
     }
 
+    // Search for notes by description
+    public List<Notebook> searchNotebooks(String searchString) {
+        return repo.searchByDescription(searchString);
+    }
+
     // Get one notebook by id
     public Notebook getNotebook(Long id)
     {
@@ -85,26 +90,9 @@ public class NotebookService
     }
 
     // Update an existing notebook's note and description
-    public boolean updateNotebook(Long id, String note, String description)
-    {
+    public Notebook updateNotebook(Long id, String note, String description) {
         Optional<Notebook> nbOptional = repo.findById(id);
-        if (nbOptional.isPresent())
-        {
-            Notebook nb = nbOptional.get();
-
-            nb.setDescription(description);
-            nb.setNote(note);
-
-            if (repo.save(nb) != null) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        else {
-            return false;       // invalid id
-        }
+        return nbOptional.get();
     }
 
     // Soft delete a notebook
