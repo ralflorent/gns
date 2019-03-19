@@ -184,6 +184,12 @@ fabric.properties
 *.cb
 *.cb2
 .*.lb
+# GPS Logging
+gns/gns-backend/gps_logs/
+gns/gns-backend/gps_logs/*
+# GPS Logging
+gns/gns-backend/gps_logs/
+gns/gns-backend/gps_logs/*
 
 ## Intermediate documents:
 *.dvi

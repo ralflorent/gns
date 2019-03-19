@@ -1,30 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
-body {
-    background-color: #f0f0f2;
-    margin: 0;
-    padding: 0;
-    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    
+.gns-text-w {
+    color: #fff;
 }
-div {
-    width: 600px;
-    margin: 5em auto;
-    padding: 50px;
-    background-color: #fff;
-    border-radius: 1em;
+
+.gns-text-k {
+    color: #eee;
 }
-a:link, a:visited {
-    color: #38488f;
-    text-decoration: none;
-}
-@media (max-width: 700px) {
-    body {
-        background-color: #fff;
+$margin-size: 5px;
+.gns-btn-margin {
+    margin: $margin-size;
+    &-top {
+        margin: $margin-size 0 0 0;
     }
-    div {
-        width: auto;
-        margin: 0 auto;
-        border-radius: 0;
-        padding: 1em;
+    &-right {
+        margin: 0 $margin-size 0 0;
+    }
+    &-bottom {
+        margin: 0 0 $margin-size 0;
+    }
+    &-left {
+        margin: 0 0 0 $margin-size;
+    }
+}
+
+.gns-hr-separator {
+    height: 1px; 
+    border: none; 
+    background-color: #000; 
+    width: 60%; 
+    text-align: center; 
+    margin: 1.5rem auto;
+
+    &.gns-color-primary {
+        color: #eee; 
+    }
+
+    &.gns-color-secondary {
+        color: #000; 
     }
 }

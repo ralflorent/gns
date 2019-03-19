@@ -3,17 +3,21 @@
 package de.jacobs.university.GNS.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "notebooks")
+@Where(clause = "is_deleted=0")
 @Data
 public class Notebook
 {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "note_id")
@@ -33,11 +37,14 @@ public class Notebook
     private Double longitude;
 
     @Column(name = "gns_date")
-    private Date recordedDateTime;
+    private LocalDateTime recordedDateTime;
 
     @Column(name = "created_on")
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "created_by")
     private String createdByUserName;
+
+    @Column(name = "is_deleted")
+    private int isDeleted;
 }

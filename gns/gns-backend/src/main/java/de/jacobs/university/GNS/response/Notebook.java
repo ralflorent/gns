@@ -5,7 +5,7 @@ package de.jacobs.university.GNS.response;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class Notebook
@@ -16,8 +16,8 @@ public class Notebook
     private String note;
     private Double latitude;
     private Double longitude;
-    private Date gns_date;
-    private Date created_on;
+    private LocalDateTime gns_date;
+    private LocalDateTime created_on;
     private String created_by;
 
     // Construct from JPA entity
