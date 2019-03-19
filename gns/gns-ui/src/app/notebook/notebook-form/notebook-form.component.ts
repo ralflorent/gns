@@ -4,8 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
+import * as L from 'leaflet';
+
 import { NotebookService } from '../notebook.service';
-import { VALIDATION_RULES } from '../../shared/constants/gns.constants';
+import { GNS_CONSTANTS, VALIDATION_RULES } from '../../shared/constants/gns.constants';
+import { detectBrowser } from '../../shared/utils/detect-browser';
 import { GPSLocation, Notebook } from 'src/app/shared/models';
 
 @Component({
@@ -14,22 +17,25 @@ import { GPSLocation, Notebook } from 'src/app/shared/models';
   styleUrls: ['./notebook-form.component.scss']
 })
 export class NotebookFormComponent implements OnInit {
-
+  
   form: FormGroup;
-  notebook: Notebook;
   formMode: 'add' | 'edit';
+  browser: string;
+  gnsmap: L.Map;
   loading: boolean;
   submitted: boolean;
   errorMsg: string;
   errorFields: { description?: string; note?: string };
-  private validators: any = VALIDATION_RULES.notebook
+  private validators: any = VALIDATION_RULES.notebook;
 
   constructor(
     private fb: FormBuilder, 
     private service: NotebookService,
     private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+    this.browser = detectBrowser();
+  }
 
   ngOnInit() {
     this.loading      = false;
@@ -54,12 +60,17 @@ export class NotebookFormComponent implements OnInit {
     // watch over future changes in form controls
     this.subscribeToValueChanges();
 
+    // init the geolocation for maps
     this.service.getLocation()
       .subscribe(
-        (data: GPSLocation) => this.form.patchValue({
-          ...data, 
-          gnsDate: (new DatePipe('en-US').transform(data.gnsDate, 'medium'))
-        }),
+        (gps: GPSLocation) => {
+          this.form.patchValue({
+            ...gps, 
+            gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
+          });
+          this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
+          this.buildTileLayer([gps.latitude, gps.longitude]);
+        },
         () => this.errorMsg = `No GPS location available now.`
       );
 
@@ -104,10 +115,22 @@ export class NotebookFormComponent implements OnInit {
         .join('. ');
   }
 
+  private buildTileLayer(location: [number, number]): void {
+    L.tileLayer(GNS_CONSTANTS.leaflet.URL, {
+      attribution: GNS_CONSTANTS.leaflet.ATTRIBUTION,
+      maxZoom: 18,
+      id: 'mapbox.streets',
+      accessToken: GNS_CONSTANTS.leaflet.TOKEN
+    }).addTo(this.gnsmap);
+
+    const marker = L.marker(location).addTo(this.gnsmap);
+    marker.bindPopup(`<b>Location</b><br> ${location}`);
+  }
+
   submit(): void {
-    if(!this.form.valid) return;
+    if (!this.form.valid) return;
     this.loading = true;
-    const payload = { ...this.form.value, created_by: 'Ralph Florent'};
+    const payload = { ...this.form.value, created_by: this.browser };
     if (this.formMode === 'edit') {
       this.service.update(payload).subscribe(
         () => this.router.navigate(['/notebooks']),
