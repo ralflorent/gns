@@ -6,38 +6,47 @@
   <h5 class="card-title text-center">
     Notebook Detail
     <br>
-    <span class="small text-muted"> {{ formMode == 'add'? 'Add': 'Edit' }} your note here </span>
+    <span class="small text-muted">
+      {{ formMode == 'add'? 'Add': 'Edit' }} your note here
+    </span>
   </h5>
   <hr class="gns-hr-separator gns-color-primary" />
   <div class="container">
     <form [formGroup]="form" novalidate="novalidate" autocomplete="off">
-      <div class="form-group row">
-        <label for="code" class="col-sm-2 col-form-label">Code</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="code"
-            formControlName="noteId">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group row">
+            <label for="code" class="col-sm-4 col-form-label">Code</label>
+            <div class="col-sm-8">
+              <input type="text" readonly class="form-control-plaintext" id="code"
+                formControlName="noteId">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="latitude" class="col-sm-4 col-form-label">Latitude</label>
+            <div class="col-sm-8">
+              <input type="text" readonly class="form-control-plaintext" id="latitude"
+                formControlName="latitude">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="longitude" class="col-sm-4 col-form-label">Longitude</label>
+            <div class="col-sm-8">
+              <input type="text" readonly class="form-control-plaintext" id="longitude"
+                formControlName="longitude">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="gnsDate" class="col-sm-4 col-form-label">Last Updated</label>
+            <div class="col-sm-8">
+              <input type="text" readonly class="form-control-plaintext" id="gnsDate"
+                formControlName="gnsDate">
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label for="latitude" class="col-sm-2 col-form-label">Latitude</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="latitude"
-            formControlName="latitude">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="longitude" class="col-sm-2 col-form-label">Longitude</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="longitude"
-            formControlName="longitude">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="gnsDate" class="col-sm-2 col-form-label">Last Updated</label>
-        <div class="col-sm-10">
-          <input type="text" readonly class="form-control-plaintext" id="gnsDate"
-            formControlName="gnsDate">
-        </div>
+        <div class="col-md-6">
+            <div id="gns-map"></div>
+          </div>
       </div>
       <div class="form-group row">
         <label for="description" class="col-sm-2 col-form-label">Description</label>
@@ -73,7 +82,7 @@
             </span>
           </button>
           <a class="btn btn-outline-secondary gns-btn-margin-left" [routerLink]="['/notebooks']">
-            Cancel 
+            Cancel
           </a>
         </div>
       </div>
@@ -81,19 +90,19 @@
   </div>
 
   <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ errorMsg }}
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-      </button>
+    {{ errorMsg }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
 
   <div class="gns-success-feedback" *ngIf="!loading && !!submitted">
-      <div class="alert alert-success" role="alert">
-        <h4 class="alert-heading">Well done, {{ this.form.value?.description }}!</h4>
-        <p>Aww yay, your note has been sent successfully! 
-          <a class="alert-link" [routerLink]="['/notebooks', 0, 'edit']"> [Add more |</a>
-          <a class="alert-link" [routerLink]="['/notebooks']"> Back]</a>
-        </p>
-      </div>
+    <div class="alert alert-success" role="alert">
+      <h4 class="alert-heading">Well done, {{ this.form.value?.description }}!</h4>
+      <p>Aww yay, your note has been sent successfully!
+        <a class="alert-link" [routerLink]="['/notebooks', 0, 'edit']"> [Add more |</a>
+        <a class="alert-link" [routerLink]="['/notebooks']"> Back]</a>
+      </p>
     </div>
+  </div>
 </div>

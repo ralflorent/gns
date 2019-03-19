@@ -1,5 +1,16 @@
 import { Notebook } from '../models/notebook.model';
 
+export const GNS_CONSTANTS = {
+    leaflet: {
+        ATTRIBUTION: `Map data &copy; <a href="https://www.openstreetmap.org/">
+            OpenStreetMap</a> contributors, 
+            <a href="https://creativecommons.org/licenses/by-sa/2.0/">
+            CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
+        TOKEN: 'pk.eyJ1IjoicmFsZmxvcmVudCIsImEiOiJjanRjOWZnc2EwczkxNGFwYzFxaWVyeGJ2In0.sf6zess8p_6WcYWSvI2ADg',
+        URL: `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}`
+    }
+}
+
 export const VALIDATION_RULES = {
     notebook: {
         description: {
