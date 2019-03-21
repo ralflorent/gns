@@ -1,0 +1,17 @@
+% backend.tex
+% section on backend system and development process
+
+\subsubsection*{Backend System}
+This section will highlight the development process of the backend system. The back-end system outlined in this report refers to the system residing on the Raspberry Pi. This system manages the database, and the GPS data streaming. It is also responsible for providing the web application with the required data and functionality.\\
+
+\subsubsection*{Architecture}
+The GNS backend was built using \textit{Java 11} and the \href{https://spring.io}{Spring Boot Framework}. The system was developed to provide a \textit{REST based micro-service} running on the Raspberry-Pi. Spring Boot is bundled with its own \textit{Apache Tomcat Java Server}, and the final artifact from the development was a \textit{jar} file that was run on Raspberry Pi under the \textit{JVM}.\\
+
+These REST endpoints were exposed to interface with the system for carrying out basic operations on the notebook data, namely to create, read, update and delete notebooks. The user interface was a web application that was a client of this backend-system.\\
+
+In addition to the REST API, the system also connected to the GPS system program, \textit{gpsd}. This was accomplished with the use of a Java library: \href{https://github.com/ivkos/gpsd4j}{gps4j}.\\
+
+This allowed the system to become a client of the \textit{gpsd} server, that was also running on the Pi. The library was used to \textit{stream} the GPS data every second. This data was dumped to a \textit{CSV file}, and was renamed according to the date. Hence, the location of the Pi is always being tracked, and is stored by day in CSV files. These log files can be found in the \textit{gps\_logs} folder.\\
+
+\subsubsection*{REST API}
+

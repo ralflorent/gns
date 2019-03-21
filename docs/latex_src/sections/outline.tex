@@ -1,6 +1,37 @@
 % outline.tex
 
 \subsection*{Outline}
-This report outlines the steps taken to produce the GNS system.
+This report outlines the steps taken to produce the system referred to as \textit{GNS (Geospatial Notebook System)}.\\
+GNS aims to provide a field notebook experience for researchers by enabling location-tracking of their field notes. A \textit{raspberry pi} computer was used for the main functionality. A GPS device, and battery were connected to Pi. The GPS was used for fetching location data in the field, and the battery ensures operation of the device in the field. 
 
+\subsection*{Basic Workflow}
+The basic work flow of GNS is given as follows:\\
 
+\begin{enumerate}
+	\item Start up the Raspberry Pi system, with the connected GPS, and battery.
+	\item Connect to the Raspberry Pi's Wi-Fi hotspot: \textit{GNS-Hotspot}.
+	\item Navigate to the GNS web service on any device near the Pi. This IP address is \textit{10.10.10.11}.
+	\item A list of notes will be presented that are already in the system.
+	\item Navigate using the web application to view, create, update, and delete notebooks as required.
+\end{enumerate}
+
+\subsection*{Functionality}
+The system was built to provide the following functionality to the user:\\
+
+\begin{enumerate}
+	\item \textbf{View Notes}\\
+	The user would be allowed to login and view the notes that have been created so far. Each note would have in addition to the text information, geo-spatial data such as the latitude and longitude along with the data and time (UTC) of the note.
+	
+	\item \textbf{View Note}\\
+	The user would be allowed to view specific details on a specific note. This includes its text information, the user who created the note, and the geo-spatial information.
+	
+	\item \textbf{Edit Note}\\
+	The user would be allowed to make changes to a note. This includes editing the note's text data.
+	
+	\item \textbf{Add Note}\\
+	The user would be allowed to add a new note to the system. The date and time and location will be fetched from the GPS device.
+	
+	\item \textbf{Delete Note}\\
+	The user would be allowed to delete a note from the system. The note will no longer be visible to the users of the system.
+	
+\end{enumerate}
