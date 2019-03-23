@@ -1,8 +1,15 @@
-import { Notebook } from '../models/notebook.model';
+/**
+ * GNS Global constanst across the entire application
+ * 
+ * Created on March 23, 2019
+ * @author Ralph Florent <ralflornt@gmail.com>
+ */
+import { environment as ENV } from 'src/environments/environment';
 
+// ref: https://openmaptiles.com/downloads/tileset/osm/europe/germany/bremen/?usage=personal
 export const GNS_CONSTANTS = {
     api: {
-        BASE_URL: `http://10.10.10.11:8080/api/v1/notes`
+        BASE_URL: `${ENV.apiServiceUrl}/api/v1/notes`
     },
     leaflet: {
         ATTRIBUTION: `Map data &copy; <a href="https://www.openstreetmap.org/">
@@ -11,8 +18,8 @@ export const GNS_CONSTANTS = {
             CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
         TOKEN: 'pk.eyJ1IjoicmFsZmxvcmVudCIsImEiOiJjanRjOWZnc2EwczkxNGFwYzFxaWVyeGJ2In0.sf6zess8p_6WcYWSvI2ADg',
         ONLINE_URL: `https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}`,
-        STATIC_URL: `assets/tiles/bremen-tile.mbtitles`,
-        API_URL: `http://10.10.10.11:8080/api/v1/notes/bremen-tile`
+        STATIC_URL: `assets/tiles/bremen-tile.mbtiles`,
+        API_URL: `${ENV.apiServiceUrl}/api/v1/notes/bremen-tile`
     }
 }
 

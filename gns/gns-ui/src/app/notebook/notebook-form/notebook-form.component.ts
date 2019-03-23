@@ -1,3 +1,10 @@
+/**
+ * Notebook form to add or edit a notebook
+ *
+ * Created on March 23, 2019
+ * @author Ralph Florent <ralflornt@gmail.com>
+ */
+
 import { Component, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -69,7 +76,7 @@ export class NotebookFormComponent implements OnInit {
                         gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
                     });
                     this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
-                    this.buildTileLayer([gps.latitude, gps.longitude]);
+                    this.buildTileLayer([gps.latitude, gps.longitude], 'ONLINE');
                 },
                 () => this.errorMsg = `No GPS location available now.`
             );
