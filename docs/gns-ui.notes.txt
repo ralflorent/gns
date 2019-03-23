@@ -1,0 +1,60 @@
+***** ***** ***** ***** GNS-UI ***** ***** ***** *****
+GNS UI is the HTTP web client module for the GNS project. 
+
+This web interface module is built with Angular Framework, powered by Google, Inc.
+
+Visit the README.md of this module for general specifications about how it works.
+
+This documentation covers specific headache at the moment of running and deploying
+the web application on the Raspberry PI. 
+
+Let's start from the very beginning.
+
+Step 0: Web app built successfully and ready to be deployed (go to production)
+
+Step 1: Zip the folder `gns-ui/dist/gns-ui/*` to `gns-ui.zip`
+
+Notes: When built with Angular using 'ng build --prod' will generate hashed files
+under a 'gns-ui'.
+
+Step 2: Copy the zip file `gns-ui.zip` to the Raspberry PI using `scp` or `sftp`
+Example using the PI as hotspot: `scp gns-ui.zip pi@10.10.10.11:~/Projects`
+
+Step 3: Connect to the PI using ssh via terminal
+Example using the PI as hotspot: ssh -l pi 10.10.10.11
+
+Step 4: Copy and unzip the zip file `gns-ui.zip` to `/var/www/html`
+
+Step 5: Enable rewriting module for Apache2 web server
+ref: https://www.digitalocean.com/community/tutorials/how-to-rewrite-urls-with-mod_rewrite-for-apache-on-ubuntu-16-04
+
+In case this web page is no longer available:
+1. First, we need to activate mod_rewrite. It's available but not enabled with a clean Apache 2 installation.
+sudo systemctl restart apache2
+
+sudo systemctl restart apache2
+
+2. By default, Apache prohibits using an .htaccess file to apply rewrite rules, so first you need to allow changes to the file. Open the default Apache configuration file using nano or your favorite text editor.
+
+sudo nano /etc/apache2/sites-available/000-default.conf
+
+<VirtualHost *:80>
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    . . .
+</VirtualHost>
+
+sudo systemctl restart apache2
+
+3. Now, create the .htaccess file in the web root as Angular specified in their documentation.
+
+https://angular.io/guide/deployment
+
+Step 6: Go the browser, try to load and reload the page.
+
+
+
