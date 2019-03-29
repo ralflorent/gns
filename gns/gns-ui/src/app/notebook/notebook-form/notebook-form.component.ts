@@ -76,7 +76,7 @@ export class NotebookFormComponent implements OnInit {
                         gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
                     });
                     this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
-                    this.buildTileLayer([gps.latitude, gps.longitude], 'ONLINE');
+                    this.buildTileLayer([gps.latitude, gps.longitude]);
                 },
                 () => this.errorMsg = `No GPS location available now.`
             );

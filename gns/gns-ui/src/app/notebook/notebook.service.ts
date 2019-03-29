@@ -95,7 +95,7 @@ export class NotebookService {
     delete(notebook: Notebook): Observable<string> {
         const { id } = notebook;
         return this.http
-            .post(`${this.baseUrl}/delete`, { id })
+            .delete(`${this.baseUrl}/delete`, { params: { id: '' + id } })
             .pipe(
                 map( (response: HttpResponse<null>) => {
                     return response.status;

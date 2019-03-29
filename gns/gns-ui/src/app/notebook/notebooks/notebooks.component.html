@@ -46,6 +46,7 @@
                         <th> Latitude </th>
                         <th> Longitude </th>
                         <th> Last Updated </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody *ngIf="notebooks && notebooks.length">
@@ -60,7 +61,13 @@
                         <td> {{ nb.note | shrink: 10 }} </td>
                         <td> {{ nb.latitude | number: '2.8-8' }} </td>
                         <td> {{ nb.longitude | number: '2.8-8' }} </td>
-                        <td> {{ nb.gnsDate | date: 'mediumDate' }} </td>
+                        <td> {{ nb.gnsDate | date: 'medium' }} </td>
+                        <td> 
+                            <a class="btn btn-sm btn-outline-info gns-btn-margin-left"
+                            [routerLink]="['/notebooks', nb.id, 'edit']"> edit </a>
+                          <a class="btn btn-sm btn-outline-danger gns-btn-margin-left" (click)="onDelete(nb)">
+                            del </a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

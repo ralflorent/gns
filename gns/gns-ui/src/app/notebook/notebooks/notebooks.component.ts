@@ -42,4 +42,19 @@ export class NotebooksComponent implements OnInit {
         error => console.log(error) 
       );
   }
+
+  onDelete(notebook: Notebook): void {
+      const confirmed: boolean = confirm(`Are you sure you want to delete ${notebook.noteId}?`);
+      if (!confirmed) return;
+
+      // process by deleting the note
+      this.service.delete(notebook)
+        .subscribe(
+            status => {
+                alert(`The note from ${notebook.noteId} has been deleted successfully!`);
+                this.ngOnInit();
+            },
+            error => console.log(error) 
+        )
+  }
 }
