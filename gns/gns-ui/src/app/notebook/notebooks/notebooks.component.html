@@ -33,47 +33,67 @@
 
             </div>
         </div>
-
-        <div class="table-responsive-sm">
-            <br>
-            <table class="table table-striped text-left">
-                <thead>
-                    <tr>
-                        <th> # </th>
-                        <th> Code </th>
-                        <th> Description </th>
-                        <th> Note </th>
-                        <th> Latitude </th>
-                        <th> Longitude </th>
-                        <th> Last Updated </th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="notebooks && notebooks.length">
-                    <tr *ngFor="let nb of notebooks; let i = index">
-                        <td> {{ i + 1 }} </td>
-                        <td>
-                            <a [routerLink]="['/notebooks', nb.id]">
+        <br>
+        <div class="mat-elevation-z8 text-left">
+            <table class="table-responsive-sm" mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="description">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let nb">
+                        <a class="gns-overlay" [routerLink]="['/notebooks', nb.id]">
+                            {{ nb.description }} <br>
+                            <span class="small text-muted">
                                 {{ nb.noteId }}
-                            </a>
-                        </td>
-                        <td> {{ nb.description }} </td>
-                        <td> {{ nb.note | shrink: 10 }} </td>
-                        <td> {{ nb.latitude | number: '2.8-8' }} </td>
-                        <td> {{ nb.longitude | number: '2.8-8' }} </td>
-                        <td> {{ nb.gnsDate | date: 'mediumDate' }} </td>
-                    </tr>
-                </tbody>
+                            </span>
+                        </a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="note">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Note </th>
+                    <td mat-cell *matCellDef="let nb"> {{ nb.note | shrink: 20 }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="latitude">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Latitude </th>
+                    <td class="text-success" mat-cell *matCellDef="let nb"> {{ nb.latitude | number: '1.8-8' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="longitude">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Longitude </th>
+                    <td class="text-info" mat-cell *matCellDef="let nb"> {{ nb.longitude | number: '1.8-8' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="gnsDate">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Last Updated </th>
+                    <td mat-cell *matCellDef="let nb"> {{ nb.gnsDate | date: 'medium' }} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let nb">
+                        <a class="btn btn-outline-primary btn-sm gns-btn-margin-left"
+                            [routerLink]="['/notebooks', nb.id, 'edit']"> edit </a>
+                        <a class="btn btn-outline-danger btn-sm gns-btn-margin-left"
+                            (click)="onDelete(nb)" [routerLink]>
+                            del 
+                        </a>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
             </table>
-            <div *ngIf="!notebooks" class="alert alert-info" role="alert">
-                No notebook info available to display! Add your note by click on the `+` button.
-            </div>
-            <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show"
-                role="alert">
-                {{ errorMsg }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+        <div *ngIf="!notebooks" class="alert alert-info" role="alert">
+            No notebook info available to display! Add your note by click on the `+` button.
+        </div>
+        <div *ngIf="errorMsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ errorMsg }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     </div>
 </div>

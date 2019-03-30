@@ -1,32 +1,38 @@
+/**
+ * Notebook data service for the notebook API requests
+ *
+ * Created on March 23, 2019
+ * @author Ralph Florent <ralflornt@gmail.com>
+ */
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Observable, of} from 'rxjs';
+import { Observable } from 'rxjs';
 
+import { GNS_CONSTANTS } from '../shared/constants/gns.constants';
 import { Notebook, GPSLocation, HttpResponse } from '../shared/models';
 import { transform } from '../shared/utils/parser';
-import { NOTEBOOKS } from '../shared/constants/gns.constants';
 
 
 @Injectable()
 export class NotebookService {
 
-    private baseUrl = 'http://10.10.10.11:8080/api/v1/notes';
+    private baseUrl = GNS_CONSTANTS.api.BASE_URL;
     
     constructor(private http: HttpClient) { }
 
     getAll(): Observable<Notebook[] | string> {
-        return of(NOTEBOOKS).pipe( catchError(this.handleError) );
-        // return this.http
-        //     .get<HttpResponse<Notebook[]>>(`${this.baseUrl}/list`)
-        //     .pipe(
-        //         map( (response: HttpResponse<Notebook[]>) =>  {
-        //             return response
-        //                 .data
-        //                 .map(e => transform(e) as Notebook);
-        //         }), 
-        //         catchError(this.handleError) 
-        //     );
+        return this.http
+            .get<HttpResponse<Notebook[]>>(`${this.baseUrl}/list`)
+            .pipe(
+                map( (response: HttpResponse<Notebook[]>) =>  {
+                    return response
+                        .data
+                        .map(e => transform(e) as Notebook);
+                }), 
+                catchError(this.handleError) 
+            );
     }
 
     getOne(id: number): Observable<Notebook | string> {
@@ -54,21 +60,14 @@ export class NotebookService {
     }
 
     getLocation(): Observable<GPSLocation | string> {
-        const response: GPSLocation = {
-            noteId: 'AA00-01000',
-            gnsDate: new Date(),
-            latitude: 53.104239,
-            longitude: 8.851805
-        }
-        return of(response).pipe( catchError(this.handleError) );
-        // return this.http
-        //     .get<HttpResponse<GPSLocation>>(`${this.baseUrl}/add`)
-        //     .pipe(
-        //         map( (response: HttpResponse<GPSLocation>) => {
-        //             return transform(response.data) as GPSLocation;
-        //         }), 
-        //         catchError(this.handleError) 
-        //     );
+        return this.http
+            .get<HttpResponse<GPSLocation>>(`${this.baseUrl}/add`)
+            .pipe(
+                map( (response: HttpResponse<GPSLocation>) => {
+                    return transform(response.data) as GPSLocation;
+                }), 
+                catchError(this.handleError) 
+            );
     }
 
     save(notebook: Notebook): Observable<Notebook | string> {
@@ -96,7 +95,7 @@ export class NotebookService {
     delete(notebook: Notebook): Observable<string> {
         const { id } = notebook;
         return this.http
-            .post(`${this.baseUrl}/delete`, { id })
+            .delete(`${this.baseUrl}/delete`, { params: { id: '' + id } })
             .pipe(
                 map( (response: HttpResponse<null>) => {
                     return response.status;
