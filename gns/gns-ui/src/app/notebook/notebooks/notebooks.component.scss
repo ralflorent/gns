@@ -1,0 +1,16 @@
+table {
+    width: 100%;
+}
+
+.gns-overlay {
+    cursor: pointer;
+    
+    &> span {
+        font-style: italic;
+    }
+}
+
+.gns-table-header {
+    font-size: 1em;
+    font-weight: bold;
+}
