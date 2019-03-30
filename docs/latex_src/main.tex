@@ -9,15 +9,16 @@
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{hyperref}
+\usepackage{xcolor}
 
 \graphicspath{{images/}}
 
 \title{
-{GIS Lab Project}\\
-{\large GIS Lab}\\
+{GEOINFORMATICS LABORATORY}\\
+{\large Project Report}\\
+{\small Raspberry PI GPS Data Logger and Field Notebook}
 \vspace{1.4cm}
-{\includegraphics[scale=0.45]{jacobs_logo.jpeg}}
-}
+{\includegraphics[scale=0.45]{jacobs_logo.jpeg}}}
 \vspace{1.4cm}
 \author{Asad Ahmed\\Ralph Florent}
 \date{19.03.2019}
@@ -26,13 +27,24 @@
 
 \maketitle
 \newpage
-	
+
+\tableofcontents
+\newpage
+
 % Outline
 \input{sections/outline}
+
+% Web UI
+\input{sections/web_interface.tex}
 \newpage
 
 % Backend System Process
 \input{sections/backend}
+\newpage
 
+% REFERENCES
+\nocite{*}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}

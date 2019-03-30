@@ -1,0 +1,143 @@
+% web_interface.tex
+% Web interface section for the report
+
+\subsection{Web Interface}
+As mentioned above, GNS consists mainly of two parts: firstly, a background running process to load and process the raw GPS data, and on the other hand, a web interface to visualize the pre-processed data and perform certain actions with them. This section will focus on detailing the different components joint together to produce the expected end-results.
+GNS was never conceived as server-to-server application, but as a client-to-server application. Although the server-to-server module remains eventually a considerable aspect to take the project to a distribution level, a normal end-user will enjoy better a WYSIWYG-based experience using an HTTP Web Client, mostly known as a web browser.
+
+\vspace{1.0cm}
+\noindent
+\subsubsection{Choosing a tool to build the web app}
+
+Unlike the old times, web developers nowadays exposed to innumerable sets of tools easing up their lives when it comes to create web pages and applications. In fact, building a web application is no longer a luxury for web developers due to the amount of frameworks and libraries currently available. Big companies like Google, Facebook, among others, dedicate their strengths and efforts in building powerful tools to enhance fast development and deployment across all platforms \cite{angular}.\\
+
+Being exposed to so many options, choosing the right tool for the GNS web interface can be a difficult task. The so-called analysis paralysis. Therefore, a fair comparison between the most used frameworks and libraries seems to be a good startup before diving deep into the technical details of a web application. \\
+
+Today’s most famous frameworks and libraries are Angular (powered by Google), React (developed by Facebook), and Vue.js (developed by Evan You) - see figure 1. All three (3) are open-source client-side JavaScript tools to create, build and deliver on-demand web applications. A few examples of web applications built with those tools are: Facebook, Gmail, Airbnb, Amazon, Netflix, etc. Besides that, the community of developers is huge and contributes to the improvement of these tools on a daily basis.\\
+
+\begin{figure}
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/angular.jpeg}
+        \caption{Client-side JavaScript tools for building web applications}    
+\end{figure}
+
+Angular and React outperform Vue.js for fanaticism reasons. Hence, they remain the two highly considered competitors on the market.\\
+
+\begin{figure}
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/chart_angular.png}
+        \caption{React and Angular as the two main competitors in indeed.com}    
+\end{figure}
+
+\vspace{1.0cm}
+\noindent
+\textbf{Angular vs React}\\
+One main relevant difference between Angular and React is their core concept: Angular is a framework for JavaScript whereas React is a JavaScript library. This explains why React is faster, lightweight, and painless when creating interactive user interfaces (UI).
+Of course, other JavaScript libraries can be that powerful too, but there are some important core features that make React much more outstanding. These are:
+
+\begin{enumerate}
+    \item Fast and responsive: React can scale to large and complex UIs because of its efficiency about how and when it manipulates the DOM (via Virtual DOM)
+    \item Composable: React allows to compose components, i.e., components can be easily nested within other components and communicate data down to sibling or child components via props.
+    \item Pluggable: unlike larger full-featured frameworks like Angular, Vue.js, or even Ember, React is totally pluggable into existing applications. Since it’s a view layer, it can be easily integrated with other technologies.
+    \item Isomorphic friendly: a feature that allows React to render in client or server side.
+\end{enumerate}
+
+\vspace{0.5cm}
+
+So far, the benefits of using React have been mentioned. However, one needs to think of the tradeoffs too: Framework vs Library. This is where Angular comes up with all the power. Because React is a library, its major focus is on components. However, a framework is more complete. It covers more cross-team consistency and avoids setup overhead. In other words, a framework covers more features such as routing, testing, http library, animation, etc., than a library does. See \textit{Fig. 3} for a more descriptive analysis.\\
+
+\begin{figure}
+    \centering
+        \includegraphics[width=0.8\textwidth]{images/table.png}
+        \caption{Features of React and Angular}    
+\end{figure}
+
+\vspace{0.5cm}
+
+In order to take advantage of React, some pieces need to be pulled out from the list and plugged in under certain configurations to develop a clean, lightweight web app. However, Angular appears to be fully featured and doesn’t require extra configurations. Thus, GNS UI will have a better feature if developed with Angular. Other pointer to such a decision is the well-documented (A-Z) guide provided by the Angular team. Have a quick look \href{https://angular.io/docs}{here}. 
+
+\vspace{1.0cm}
+\noindent
+\subsubsection{Using Angular to build GNS-UI}
+No wonder, Angular is the chosen one. GNS UI is the HTTP web client module for the GNS project, used to access geospatial data from the GNS API and take notes.
+
+This web application, known as GNS Web App, is used to manage different tasks when it comes to taking notes and archiving them. Among others, certain tasks feature the following: locating the current position of the set of Raspberry PI + GPS puck; adding, editing, and/or viewing existing notes; creating base maps based on the path traveled during the process of note taking, and so forth. To build the website from scratch, follow the instructions below from a development standpoint up to production.
+
+\vspace{1.0cm}
+\noindent
+\textbf{Getting Started}\\
+Assuming that the reader has the basic programming/DevOps knowledge, this section aims to explain the procedure implemented to build the web application up to deploying it on the Apache web server.\\
+
+\noindent
+\textbf{Prerequisites}
+This web interface module is built with \href{https://angular.io}{Angular Framework v7.2.1}, powered by Google, Inc. If not yet installed, please install these following task runners using a preferred command line console \textit{(linux terminal, Git Bash, Windows Powershell, Iterm2, etc.)}:
+
+\begin{enumerate}
+    \item Download and install Node and npm 
+    \item Once node and npm installed, this reference can be used, or run the command `npm install -g yarn` to install Yarn globally 
+    \item Install Angular CLI by running this command `npm install -g @angular/cli` or using this link.
+\end{enumerate}
+
+In case of errors during the installation, one can always google-search for quick fixes or use the references (mentioned above) of the respective official web pages for more information on those errors.\\
+
+If everything goes well, the next step is to proceed with setting up a development environment (dev-env) so the app can be tested and run locally. But if the user is not interested in visualizing the app on his/her local machine, he or she can always skip this next section and go directly to the deployment section.\\
+
+\noindent
+\textbf{Create a workspace }\\
+To run the web page, the developer should set up a development environment. To do so, he or she needs an IDE such as IntelliJ IDEA, Visual Studio Code, WebStorm, and any related workspace enabling developing features like intellisense, for example. His or her preference is what really matters.\\
+
+Since the web app is an Angular web-based application, Visual Studio Code seems to work quite well with it and contains some useful features at the time of developing. Other considerations could be IntelliJ IDEA as a strong, stable IDE for development.\\
+
+\noindent
+\textbf{IMPORTANT}: The instructions detailed in the following sections target a Visual Studio Code IDE. For other IDEs, the developer (reader) shall inquire details on how to configure an angular-adapted environment for a specific IDE.\\
+
+\noindent
+\textbf{Running GNS UI locally}\\
+Running the GNS UI is an easy-to-do computing task. Basically, a command. However, keep in mind that it requires to set a proper environment while having the GNS API service running in parallel in order to have a first look.\\ 
+
+The steps that follow below are a guide for developers willing to reproduce the development environment so that they may add more features and write tests for future releases.
+
+\begin{enumerate}
+    \item Clone (or download) the repository here using any CLI or any preferred `Application`.
+    \item Checkout to the `develop` Git branch and pull the changes in case of any updates.
+    \item Open the project using the Visual Studio(VS) Code IDE.
+    \item Locate the Terminal of the IDE, make sure it's open in the current working directory, which is `gns-ui`.
+    \item Run the following command `yarn`. Being installed globally, Yarn will scan the package.json file and install all the dependencies accordingly. This might take a little while.
+    \item After installing the dependencies, the developer can run the following command `yarn start` to run the app locally. The Angular CLI will be in charge and open the web app in the default web browser.
+\end{enumerate}
+
+\noindent
+\textit{\textbf{Notes}: In order to simulate a production-like environment while at the development environment, some changes might be necessary in the package.json file.}\\
+
+\begin{itemize}
+\item The default port used by Angular CLI is 4200. To avoid conflicts with existing apps running in port 4200, set the following starting script \begin{verbatim}`ng serve --port [port_number]` in the `package.json` file.\end{verbatim}
+    \item GNS Web App requires the GNS API, which is an independent service located in another port, to load GPS data, and perform specific tasks.
+\end{itemize}
+
+Finally, running  the command \textcolor{orange}{`yarn start`} in the selected terminal should start the app.\\
+
+\noindent
+\textbf{Deploying the app to the web server}\\
+
+\noindent
+The GNS Web App, at the time of writing this document, is at its `v1.0.1` version. This section covers specific headache at the moment of running and deploying the web application on the Apache server of the Raspberry PI.
+
+\begin{enumerate}
+    \item First off, make sure the Apache server is up and running (Read more here on how to set and run Apache2 on Raspberry PI)
+    \item Build the GNS Web app for production by running \textcolor{orange}{`yarn run build`} command in the CLI. Once built successfully, the GNS UI is ready to be deployed (go to production). It should be noted that when built with Angular, using \textcolor{orange}{`ng build --prod`} generates hashed files under a `gns-ui` folder.
+    \item Zip the folder \textcolor{orange}{`gns-ui/dist/gns-ui/*`} to \textcolor{orange}{`gns-ui.zip`}
+    \item Transfer the \textcolor{orange}{`gns-ui.zip`} via a client (S)FTP or via SCP over ssh connection. It is recommended the use of FileZilla to avoid complex client-side configurations. It should also be noted that \textit{`scp`} or \textit{`sftp`} via a terminal can be used to copy the zip file \textcolor{orange}{`gns-ui.zip`} to the Raspberry PI. For example, using the PI as hotspot: \textcolor{orange}{`scp gns-ui.zip pi@10.10.10.11:~/Projects`}.
+    \item Connect to the PI using \textit{`ssh`} via a linux terminal. For example, using the PI as hotspot: \textcolor{orange}{`ssh -l pi 10.10.10.11`}.
+    \item Copy and unzip the zip file \textcolor{orange}{`gns-ui.zip`} to \textcolor{orange}{`/var/www/html`}.
+    \item Enable rewriting module for Apache2 web server (Read more about it \href{https://www.digitalocean.com/community/tutorials/how-to-rewrite-urls-with-mod_rewrite-for-apache-on-ubuntu-16-04}{here})
+    \item Finally, go the browser, try to load and reload the page.
+\end{enumerate}
+
+\noindent
+\textbf{IMPORTANT}: If it runs on the local machine, it should also run on the web server. Always make sure the tests are passed. But if any errors, the developer can always check the console output.\\
+
+[Preview of the GNS UI first-look]\\
+
+\noindent
+\textbf{How does GNS UI work?}\\
+At this point, the technical details of how to run GNS UI are no longer necessary. In other words, this section discusses the part where a simple end-user can take advantage of GNS Web App

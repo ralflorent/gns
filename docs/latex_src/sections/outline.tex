@@ -1,11 +1,26 @@
 % outline.tex
 
-\subsection*{Outline}
+\subsection{Outline}
 This report outlines the steps taken to produce the system referred to as \textit{GNS (Geospatial Notebook System)}.\\
-GNS aims to provide a field notebook experience for researchers by enabling location-tracking of their field notes. A \textit{raspberry pi} computer was used for the main functionality. A GPS device, and battery were connected to Pi. The GPS was used for fetching location data in the field, and the battery ensures operation of the device in the field. 
+GNS aims to provide a field notebook experience for researchers by enabling location-tracking of their field notes. A \textit{raspberry pi} computer was used for the main functionality. A GPS device, and battery were connected to Pi. The GPS was used for fetching location data in the field, and the battery ensures operation of the device in the field.
 
-\subsection*{Basic Workflow}
-The basic work flow of GNS is given as follows:\\
+\subsection{Setup and Configuration}
+The setup of the system includes the following steps:
+
+\begin{enumerate}
+	\item Connect a GPS device/puck and install \textit{gpsd}
+\item Configure GPSD with options: \begin{verbatim}GPSD_OPTIONS="-b -n"\end{verbatim} in the \textit{/etc/default/gpsd}
+\item Setup the Wi-Fi hotspot by installing \textit{hostapd} and \textit{dnsmasq}
+\item Configure a static IP by editing the configuration file: \textit{/etc/dhcpcd.conf}
+\item Configure the access point by editing the \textit{/etc/hostapd/hostapd.conf} file. Ensure that the bridge is disabled.
+\item Reboot the system and all services to access the wireless point.
+\end{enumerate}
+
+\noindent
+Once the system is setup, development can take place. This would include the development of a backend system and a frontend web system. These systems are documented in preceeding sections of this report.
+
+\subsection{Basic Workflow}
+The basic work flow of GNS is given as follows:
 
 \begin{enumerate}
 	\item Start up the Raspberry Pi system, with the connected GPS, and battery.
@@ -15,7 +30,7 @@ The basic work flow of GNS is given as follows:\\
 	\item Navigate using the web application to view, create, update, and delete notebooks as required.
 \end{enumerate}
 
-\subsection*{Functionality}
+\subsection{Functionality}
 The system was built to provide the following functionality to the user:\\
 
 \begin{enumerate}
