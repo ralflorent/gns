@@ -8,7 +8,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 
 import { GNS_CONSTANTS } from '../shared/constants/gns.constants';
 import { Notebook, GPSLocation, HttpResponse } from '../shared/models';
@@ -113,8 +113,15 @@ export class NotebookService {
         } else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong,
-            errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+            switch(err.status) {
+                case 0: errorMessage = 'The application appears to be offline'; break;
+                case 400: errorMessage = `The content required to request this resource is not valid`; break;
+                case 404: errorMessage = `The content requested is not found`; break;
+                case 500: errorMessage = `Errors occurred while processing a request. Try later!`; break;
+                default: errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
+            }
+            
         }
-        return Observable.throw(errorMessage);
+        return throwError(errorMessage);
     }
 }

@@ -15,6 +15,7 @@ export class NotebooksComponent implements OnInit {
     notebooks: Notebook[] = [];
     searchTerm: string = '';
     errorMsg: string = '';
+    loading: boolean = false;
     dataSource: any;
     columnNames: string[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -22,6 +23,7 @@ export class NotebooksComponent implements OnInit {
     constructor(private service: NotebookService, private router: Router) { }
 
     ngOnInit() {
+        this.loading = true;
         this.columnNames = [
              'description', 'note', 'latitude', 'longitude', 'gnsDate', 'actions'
         ];
@@ -32,7 +34,11 @@ export class NotebooksComponent implements OnInit {
                     this.dataSource = new MatTableDataSource<Notebook>(data);
                     this.dataSource.paginator = this.paginator;
                 },
-                error => console.log(error)
+                (error: string) => {
+                    this.loading = false;
+                    this.errorMsg = error;
+                },
+                () => this.loading = false
             );
     }
 
@@ -44,6 +50,7 @@ export class NotebooksComponent implements OnInit {
         }
 
         this.errorMsg = '';
+        this.loading = true;
         this.service.search(term)
             .subscribe(
                 (data: Notebook[]) => {
@@ -53,7 +60,11 @@ export class NotebooksComponent implements OnInit {
                     if (this.notebooks && this.notebooks.length) return;
                     this.errorMsg = `No results found for '${term}'`;
                 },
-                error => console.log(error)
+                (error: string) => {
+                    this.loading = false;
+                    this.errorMsg = error;
+                },
+                () => this.loading = false
             );
     }
 
@@ -61,6 +72,7 @@ export class NotebooksComponent implements OnInit {
         const confirmed: boolean = confirm(`Are you sure you want to delete ${notebook.noteId}?`);
         if (!confirmed) return;
 
+        this.loading = true;
         // process by deleting the note
         this.service.delete(notebook)
             .subscribe(
@@ -68,7 +80,11 @@ export class NotebooksComponent implements OnInit {
                     alert(`The note from ${notebook.noteId} has been deleted successfully!`);
                     this.ngOnInit();
                 },
-                error => console.log(error)
+                (error: string) => {
+                    this.loading = false;
+                    this.errorMsg = error;
+                },
+                () => this.loading = false
             )
     }
 }
