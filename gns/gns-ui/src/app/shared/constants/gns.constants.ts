@@ -1,6 +1,6 @@
 /**
  * GNS Global constanst across the entire application
- * 
+ *
  * Created on March 23, 2019
  * @author Ralph Florent <ralflornt@gmail.com>
  */
@@ -13,7 +13,7 @@ export const GNS_CONSTANTS = {
     },
     leaflet: {
         ATTRIBUTION: `Map data &copy; <a href="https://www.openstreetmap.org/">
-            OpenStreetMap</a> contributors, 
+            OpenStreetMap</a> contributors,
             <a href="https://creativecommons.org/licenses/by-sa/2.0/">
             CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>`,
         TOKEN: 'pk.eyJ1IjoicmFsZmxvcmVudCIsImEiOiJjanRjOWZnc2EwczkxNGFwYzFxaWVyeGJ2In0.sf6zess8p_6WcYWSvI2ADg',
@@ -23,7 +23,7 @@ export const GNS_CONSTANTS = {
     }
 }
 
-export const VALIDATION_RULES = {
+export const VALIDATION_RULES: GNSValidationRule = {
     notebook: {
         description: {
             rules: {
@@ -42,4 +42,20 @@ export const VALIDATION_RULES = {
             messages: { required: 'Please enter a note'}
         }
     }
+}
+
+export interface GNSValidationRule {
+    notebook: {
+        description: Partial<GNSRuler>;
+        note: Partial<GNSRuler>
+    }
+}
+
+export interface GNSRuler {
+    rules: {
+        [key: string]: boolean | number | string;
+    };
+    messages: {
+        [key: string]: string | string[];
+    };
 }

@@ -5,7 +5,7 @@
  * @author Ralph Florent <ralflornt@gmail.com>
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -18,12 +18,14 @@ import { GNS_CONSTANTS, VALIDATION_RULES } from 'src/app/shared/constants/gns.co
 import { detectBrowser } from 'src/app/shared/utils/detect-browser';
 import { GPSLocation, Notebook } from 'src/app/shared/models';
 
+const COUNTDOWN_VALUE: number = 10;
+
 @Component({
     selector: 'gns-notebook-form',
     templateUrl: './notebook-form.component.html',
     styleUrls: ['./notebook-form.component.scss']
 })
-export class NotebookFormComponent implements OnInit {
+export class NotebookFormComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     formMode: 'add' | 'edit';
@@ -34,6 +36,8 @@ export class NotebookFormComponent implements OnInit {
     errorMsg: string;
     errorFields: { description?: string; note?: string };
     private validators: any = VALIDATION_RULES.notebook;
+    private downloadTimer: any;
+    private counter: number;
 
     constructor(
         private fb: FormBuilder,
@@ -68,18 +72,7 @@ export class NotebookFormComponent implements OnInit {
         this.subscribeToValueChanges();
 
         // init the geolocation for maps
-        this.service.getLocation()
-            .subscribe(
-                (gps: GPSLocation) => {
-                    this.form.patchValue({
-                        ...gps,
-                        gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
-                    });
-                    this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
-                    this.buildTileLayer([gps.latitude, gps.longitude]);
-                },
-                () => this.errorMsg = `No GPS location available now.`
-            );
+        this.updateGeoLocation();
 
         const id = +this.route.snapshot.paramMap.get('id');
         if (id > 0) {
@@ -167,6 +160,25 @@ export class NotebookFormComponent implements OnInit {
         }
     }
 
+    updateGeoLocation(): void {
+        this.service.getLocation()
+            .subscribe(
+                (gps: GPSLocation) => {
+                    this.form.patchValue({
+                        ...gps,
+                        gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
+                    });
+                    // this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
+                    // this.buildTileLayer([gps.latitude, gps.longitude]);
+                },
+                () => {
+                    this.errorMsg = `No GPS location available now.`;
+                    this.startTimer();
+                },
+                () => this.startTimer()
+            );
+    }
+
     resetForm(): void {
         this.submitted = false;
         this.loading = false;
@@ -175,4 +187,23 @@ export class NotebookFormComponent implements OnInit {
         this.form.reset();
     }
 
+    private startTimer(): void {
+        this.counter = COUNTDOWN_VALUE;
+
+        this.downloadTimer = setInterval(() => {
+            this.counter -= 1;
+            if (this.counter <= 0) {
+                this.stopTimer();
+                this.updateGeoLocation();
+            }
+        }, 1000);
+    }
+
+    private stopTimer(): void {
+        clearInterval(this.downloadTimer);
+    }
+
+    ngOnDestroy(): void {
+        this.stopTimer();
+    }
 }
