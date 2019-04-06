@@ -10,12 +10,12 @@ This web application, known as [GNS Web App](http://www.gns.local), is used to m
 Assuming that the reader has the basic programming/DevOps knowledge, this document aims to explain the procedure implemented to build the web application up to deploying it on the Apache web server.
 
 #### Prerequisites
-This web interface module is built with [Angular Framework v7.5.6](https://angular.io), powered by Google, Inc. 
+This web interface module is built with [Angular Framework v7.2.1](https://angular.io), powered by Google, Inc.
 
 If not yet installed, please install these following task runners using a preferred command line console *(linux terminal, Git Bash, Windows Powershell, Iterm2, etc.)*:
 
 1. Download and install [Node and npm](https://nodejs.org/en/download/)
-2. Once node and npm installed, this [reference](https://yarnpkg.com/lang/en/docs/install/) can be used, or run the command `npm install -g yarn` to install **Yarn** globally 
+2. Once node and npm installed, this [reference](https://yarnpkg.com/lang/en/docs/install/) can be used, or run the command `npm install -g yarn` to install **Yarn** globally
 3. Install **Angular CLI** by running this command `npm install -g @angular/cli` or using this [reference](https://cli.angular.io/).
 
 In case of errors during the installation, one can always google-search for quick fixes or use the references (mentioned above) of the respective official web pages for more information on those errors.
@@ -23,9 +23,9 @@ In case of errors during the installation, one can always google-search for quic
 If everything goes well, the next step is to proceed with setting up a development environment (dev-env) so the app can be tested and run locally. But if the user is not interested in visualizing the app in his/her local machine, s/he can always skip this step and go directly to the deployment section.
 
 ---
-### Run the app locally 
+### Run the app locally
 To run the web page, the developer should set up a dev-env. To do so, s/he need an IDE such as IntelliJ IDEA, Visual Studio Code, WebStorm, and so on. His/her preference is what really matters.
-Since the web page is an [Angular](https://angular.io/) web based app, Visual Studio Code seems to work quite well with it and contains some useful features at the time of developing. Other consideration could be IntelliJ IDEA as a strong, stable IDE for development. 
+Since the web page is an [Angular](https://angular.io/) web based app, Visual Studio Code seems to work quite well with it and contains some useful features at the time of developing. Other consideration could be IntelliJ IDEA as a strong, stable IDE for development.
 
 PS: *More details will be provided soon on how to configure an angular-adapted environment for a specific IDE*.
 
@@ -46,7 +46,7 @@ Notes: *In order to simulate a production-like environment while at the developm
 Finally, running  the command `yarn start` in the selected Terminal should start the app.
 
 ### Deploy the app to the web server
-The web page, at the time of writing this documentation, is at its `v1.0.1` version. This section covers specific headache at the moment of running and deploying the web application on the Apache server of the Raspberry PI. 
+The web page, at the time of writing this documentation, is at its `v1.0.1` version. This section covers specific headache at the moment of running and deploying the web application on the Apache server of the Raspberry PI.
 
 1. First off, make sure the Apache server is up and running (Read more here on how to set and run Apache2 on Raspberry PI)
 2. Build the GNS Web app for production by running `yarn run build` command in the CLI. Once built successfully, the GNS UI is ready to be deployed (go to production)

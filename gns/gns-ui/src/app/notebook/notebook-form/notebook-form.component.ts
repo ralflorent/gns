@@ -15,7 +15,7 @@ import { NotebookService } from '../notebook.service';
 import { GNS_CONSTANTS, VALIDATION_RULES } from 'src/app/shared/constants/gns.constants';
 import { detectBrowser } from 'src/app/shared/utils/detect-browser';
 import { transform } from 'src/app/shared/utils/parser';
-import { GPSLocation, Notebook } from 'src/app/shared/models';
+import { GPSLocation, Notebook, NotebookFormError } from 'src/app/shared/models';
 
 const COUNTDOWN_VALUE: number = 5;
 
@@ -33,7 +33,7 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
     loading: boolean;
     submitted: boolean;
     errorMsg: string;
-    errorFields: { description?: string; note?: string };
+    errorFields: NotebookFormError;
     private validators: any = VALIDATION_RULES.notebook;
     private downloadTimer: any;
     private counter: number;
@@ -43,7 +43,7 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
         private service: NotebookService,
         private router: Router,
         private route: ActivatedRoute,
-        
+
     ) {
         this.browser = detectBrowser();
     }
@@ -60,7 +60,12 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
             latitude: 0,
             longitude: 0,
             gnsDate: '',
-            createdBy: [this.browser, []],
+            createdBy: [this.browser, [
+                this.validators.createdBy.rules.REQUIRED ? Validators.required : null,
+                Validators.minLength(this.validators.createdBy.rules.MIN_LENGTH),
+                Validators.maxLength(this.validators.createdBy.rules.MAX_LENGTH),
+                Validators.pattern(this.validators.createdBy.rules.PATTERN)
+            ]],
             description: ['', [
                 this.validators.description.rules.REQUIRED ? Validators.required : null,
                 Validators.minLength(this.validators.description.rules.MIN_LENGTH),

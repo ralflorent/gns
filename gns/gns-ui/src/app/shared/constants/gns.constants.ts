@@ -40,6 +40,20 @@ export const VALIDATION_RULES: GNSValidationRule = {
         note: {
             rules: { REQUIRED: true },
             messages: { required: 'Please enter a note'}
+        },
+        createdBy: {
+            rules: {
+                REQUIRED: true,
+                MIN_LENGTH: 2,
+                MAX_LENGTH: 50,
+                PATTERN: '^[a-zA-Z0-9]+(([a-zA-Z0-9 ])?[a-zA-Z0-9]*)*$'
+            },
+            messages: {
+                required: 'Please enter your name',
+                minlength: 'Must be at least 2 characters',
+                maxlength: 'Must be less than 50 characters',
+                pattern: 'Should be alphanumerical characters only'
+            }
         }
     }
 }
@@ -47,7 +61,8 @@ export const VALIDATION_RULES: GNSValidationRule = {
 export interface GNSValidationRule {
     notebook: {
         description: Partial<GNSRuler>;
-        note: Partial<GNSRuler>
+        note: Partial<GNSRuler>;
+        createdBy: Partial<GNSRuler>;
     }
 }
 
