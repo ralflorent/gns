@@ -23,7 +23,8 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets/css/images",
+              "src/assets/img"
             ],
             "styles": [
               "src/assets/css/bootstrap.min.css",

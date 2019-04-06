@@ -4,9 +4,7 @@
  * Created on March 23, 2019
  * @author Ralph Florent <ralflornt@gmail.com>
  */
-
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -16,9 +14,10 @@ import * as L from 'leaflet';
 import { NotebookService } from '../notebook.service';
 import { GNS_CONSTANTS, VALIDATION_RULES } from 'src/app/shared/constants/gns.constants';
 import { detectBrowser } from 'src/app/shared/utils/detect-browser';
+import { transform } from 'src/app/shared/utils/parser';
 import { GPSLocation, Notebook } from 'src/app/shared/models';
 
-const COUNTDOWN_VALUE: number = 10;
+const COUNTDOWN_VALUE: number = 5;
 
 @Component({
     selector: 'gns-notebook-form',
@@ -43,7 +42,8 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
         private fb: FormBuilder,
         private service: NotebookService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        
     ) {
         this.browser = detectBrowser();
     }
@@ -60,6 +60,7 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
             latitude: 0,
             longitude: 0,
             gnsDate: '',
+            createdBy: [this.browser, []],
             description: ['', [
                 this.validators.description.rules.REQUIRED ? Validators.required : null,
                 Validators.minLength(this.validators.description.rules.MIN_LENGTH),
@@ -92,6 +93,60 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
 
     }
 
+    ngOnDestroy(): void {
+        this.stopTimer();
+    }
+
+    submit(): void {
+        if (!this.form.valid) return;
+        this.loading = true;
+        const payload = <Notebook>transform(this.form.value, 'snake');
+
+        if (this.formMode === 'edit') {
+            this.service.update(payload).subscribe(
+                () => this.router.navigate(['/notebooks']),
+                () => {
+                    this.errorMsg = `Could not edit your current note...`;
+                    this.loading = false;
+                },
+                () => this.loading = false
+            );
+        } else {
+            this.service.save(payload).subscribe(
+                () => this.router.navigate(['/notebooks']),
+                () => {
+                    this.errorMsg = `Could not save your current note...`;
+                    this.loading = false;
+                },
+                () => this.loading = false
+            )
+        }
+    }
+
+    updateGeoLocation(): void {
+        this.service.getLocation()
+            .subscribe(
+                (gps: GPSLocation) => {
+                    this.form.patchValue({...gps});
+                    // this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
+                    // this.buildTileLayer([gps.latitude, gps.longitude]);
+                },
+                () => {
+                    this.errorMsg = `No GPS location available now.`;
+                    this.startTimer();
+                },
+                () => this.startTimer()
+            );
+    }
+
+    resetForm(): void {
+        this.submitted = false;
+        this.loading = false;
+        this.errorMsg = '';
+        this.errorFields = {};
+        this.form.reset();
+    }
+
     private subscribeToValueChanges(): void {
         Object.keys(this.form.value).map(key => {
             this.form.get(key)
@@ -115,6 +170,22 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
                 .join('. ');
     }
 
+    private startTimer(): void {
+        this.counter = COUNTDOWN_VALUE;
+
+        this.downloadTimer = setInterval(() => {
+            this.counter -= 1;
+            if (this.counter <= 0) {
+                this.stopTimer();
+                this.updateGeoLocation();
+            }
+        }, 1000);
+    }
+
+    private stopTimer(): void {
+        clearInterval(this.downloadTimer);
+    }
+
     private buildTileLayer(
         location: [number, number]
         , option: 'STATIC' | 'API' | 'ONLINE' = 'STATIC'): void {
@@ -132,78 +203,14 @@ export class NotebookFormComponent implements OnInit, OnDestroy {
                 break;
         }
 
-        L.tileLayer(url, {
-            attribution: GNS_CONSTANTS.leaflet.ATTRIBUTION,
-            maxZoom: 18,
-            id: 'mapbox.streets',
-            accessToken: GNS_CONSTANTS.leaflet.TOKEN
-        }).addTo(this.gnsmap);
+        // L.tileLayer(url, {
+        //     attribution: GNS_CONSTANTS.leaflet.ATTRIBUTION,
+        //     maxZoom: 18,
+        //     id: 'mapbox.streets',
+        //     accessToken: GNS_CONSTANTS.leaflet.TOKEN
+        // }).addTo(this.gnsmap);
 
         const marker = L.marker(location).addTo(this.gnsmap);
         marker.bindPopup(`<b>Location</b><br> ${location}`);
-    }
-
-    submit(): void {
-        if (!this.form.valid) return;
-        this.loading = true;
-        const payload = { ...this.form.value, created_by: this.browser };
-        if (this.formMode === 'edit') {
-            this.service.update(payload).subscribe(
-                () => this.router.navigate(['/notebooks']),
-                () => this.errorMsg = `Could not edit your current note...`
-            );
-        } else {
-            this.service.save(payload).subscribe(
-                () => this.router.navigate(['/notebooks']),
-                () => this.errorMsg = `Could not save your current note...`
-            )
-        }
-    }
-
-    updateGeoLocation(): void {
-        this.service.getLocation()
-            .subscribe(
-                (gps: GPSLocation) => {
-                    this.form.patchValue({
-                        ...gps,
-                        gnsDate: (new DatePipe('en-US').transform(gps.gnsDate, 'medium'))
-                    });
-                    // this.gnsmap = L.map('gns-map').setView([gps.latitude, gps.longitude], 13);
-                    // this.buildTileLayer([gps.latitude, gps.longitude]);
-                },
-                () => {
-                    this.errorMsg = `No GPS location available now.`;
-                    this.startTimer();
-                },
-                () => this.startTimer()
-            );
-    }
-
-    resetForm(): void {
-        this.submitted = false;
-        this.loading = false;
-        this.errorMsg = '';
-        this.errorFields = {};
-        this.form.reset();
-    }
-
-    private startTimer(): void {
-        this.counter = COUNTDOWN_VALUE;
-
-        this.downloadTimer = setInterval(() => {
-            this.counter -= 1;
-            if (this.counter <= 0) {
-                this.stopTimer();
-                this.updateGeoLocation();
-            }
-        }, 1000);
-    }
-
-    private stopTimer(): void {
-        clearInterval(this.downloadTimer);
-    }
-
-    ngOnDestroy(): void {
-        this.stopTimer();
     }
 }

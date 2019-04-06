@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 import { NotebookService } from '../notebook.service';
 import { Notebook } from 'src/app/shared/models/notebook.model';
@@ -20,7 +21,11 @@ export class NotebooksComponent implements OnInit {
     columnNames: string[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    constructor(private service: NotebookService, private router: Router) { }
+    constructor(
+        private service: NotebookService,
+        private router: Router,
+        private toastr: ToastrService
+    ) { }
 
     ngOnInit() {
         this.loading = true;
@@ -77,7 +82,7 @@ export class NotebooksComponent implements OnInit {
         this.service.delete(notebook)
             .subscribe(
                 status => {
-                    alert(`The note from ${notebook.noteId} has been deleted successfully!`);
+                    this.toastr.success(`The note from ${notebook.noteId} has been deleted successfully!`);
                     this.ngOnInit();
                 },
                 (error: string) => {

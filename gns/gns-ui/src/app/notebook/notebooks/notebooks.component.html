@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div class="float-right">
-                        <a class="btn btn-primary" [routerLink]="['/notebooks', '0', 'edit']">
+                        <a class="btn btn-primary" style="margin-top: 5px" [routerLink]="['/notebooks', '0', 'edit']">
                             New
                         </a>
                     </div>
@@ -43,7 +43,7 @@
                         <a class="gns-overlay" [routerLink]="['/notebooks', nb.id]">
                             {{ nb.description }} <br>
                             <span class="small text-muted">
-                                {{ nb.noteId }}
+                                {{ nb.noteId }} | {{ nb.createdBy }}
                             </span>
                         </a>
                     </td>
