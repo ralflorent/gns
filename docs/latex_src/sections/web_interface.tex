@@ -13,12 +13,12 @@ Unlike the old times, web developers nowadays exposed to innumerable sets of too
 
 Being exposed to so many options, choosing the right tool for the GNS web interface can be a difficult task. The so-called analysis paralysis. Therefore, a fair comparison between the most used frameworks and libraries seems to be a good startup before diving deep into the technical details of a web application. \\
 
-Today’s most famous frameworks and libraries are Angular (powered by Google), React (developed by Facebook), and Vue.js (developed by Evan You) - see figure 1. All three (3) are open-source client-side JavaScript tools to create, build and deliver on-demand web applications. A few examples of web applications built with those tools are: Facebook, Gmail, Airbnb, Amazon, Netflix, etc. Besides that, the community of developers is huge and contributes to the improvement of these tools on a daily basis.\\
+Today’s most famous frameworks and libraries are Angular (powered by Google), React (developed by Facebook), and Vue.js (developed by Evan You) - see Figure 1. All three (3) are open-source client-side JavaScript tools to create, build and deliver on-demand web applications. A few examples of web applications built with those tools are: Facebook, Gmail, Airbnb, Amazon, Netflix, etc. Besides that, the community of developers is huge and contributes to the improvement of these tools on a daily basis.\\
 
 \begin{figure}
     \centering
         \includegraphics[width=0.8\textwidth]{images/angular.jpeg}
-        \caption{Client-side JavaScript tools for building web applications}    
+        \caption{Client-side JavaScript tools for building web applications}
 \end{figure}
 
 Angular and React outperform Vue.js for fanaticism reasons. Hence, they remain the two highly considered competitors on the market.\\
@@ -26,7 +26,7 @@ Angular and React outperform Vue.js for fanaticism reasons. Hence, they remain t
 \begin{figure}
     \centering
         \includegraphics[width=0.8\textwidth]{images/chart_angular.png}
-        \caption{React and Angular as the two main competitors in indeed.com}    
+        \caption{React and Angular as the two main competitors in indeed.com}
 \end{figure}
 
 \vspace{1.0cm}
@@ -49,12 +49,12 @@ So far, the benefits of using React have been mentioned. However, one needs to t
 \begin{figure}
     \centering
         \includegraphics[width=0.8\textwidth]{images/table.png}
-        \caption{Features of React and Angular}    
+        \caption{Features of React and Angular}
 \end{figure}
 
 \vspace{0.5cm}
 
-In order to take advantage of React, some pieces need to be pulled out from the list and plugged in under certain configurations to develop a clean, lightweight web app. However, Angular appears to be fully featured and doesn’t require extra configurations. Thus, GNS UI will have a better feature if developed with Angular. Other pointer to such a decision is the well-documented (A-Z) guide provided by the Angular team. Have a quick look \href{https://angular.io/docs}{here}. 
+In order to take advantage of React, some pieces need to be pulled out from the list and plugged in under certain configurations to develop a clean, lightweight web app. However, Angular appears to be fully featured and doesn’t require extra configurations. Thus, GNS UI will have a better feature if developed with Angular. Other pointer to such a decision is the well-documented (A-Z) guide provided by the Angular team. Have a quick look \href{https://angular.io/docs}{here}.
 
 \vspace{1.0cm}
 \noindent
@@ -73,8 +73,8 @@ Assuming that the reader has the basic programming/DevOps knowledge, this sectio
 This web interface module is built with \href{https://angular.io}{Angular Framework v7.2.1}, powered by Google, Inc. If not yet installed, please install these following task runners using a preferred command line console \textit{(linux terminal, Git Bash, Windows Powershell, Iterm2, etc.)}:
 
 \begin{enumerate}
-    \item Download and install Node and npm 
-    \item Once node and npm installed, this reference can be used, or run the command `npm install -g yarn` to install Yarn globally 
+    \item Download and install Node and npm
+    \item Once node and npm installed, this reference can be used, or run the command `npm install -g yarn` to install Yarn globally
     \item Install Angular CLI by running this command `npm install -g @angular/cli` or using this link.
 \end{enumerate}
 
@@ -93,7 +93,7 @@ Since the web app is an Angular web-based application, Visual Studio Code seems 
 
 \noindent
 \textbf{Running GNS UI locally}\\
-Running the GNS UI is an easy-to-do computing task. Basically, a command. However, keep in mind that it requires to set a proper environment while having the GNS API service running in parallel in order to have a first look.\\ 
+Running the GNS UI is an easy-to-do computing task. Basically, a command. However, keep in mind that it requires to set a proper environment while having the GNS API service running in parallel in order to have a first look.\\
 
 The steps that follow below are a guide for developers willing to reproduce the development environment so that they may add more features and write tests for future releases.
 
@@ -136,8 +136,53 @@ The GNS Web App, at the time of writing this document, is at its `v1.0.1` versio
 \noindent
 \textbf{IMPORTANT}: If it runs on the local machine, it should also run on the web server. Always make sure the tests are passed. But if any errors, the developer can always check the console output.\\
 
-[Preview of the GNS UI first-look]\\
+\begin{figure}
+    \centering
+        \includegraphics[width=1\textwidth]{images/screenshots/gns-ui-screenshot_home.png}
+        \caption{Preview of the Home page}
+        \label{fig:gns-ui-home}
+\end{figure}
 
 \noindent
 \textbf{How does GNS UI work?}\\
-At this point, the technical details of how to run GNS UI are no longer necessary. In other words, this section discusses the part where a simple end-user can take advantage of GNS Web App
+At this point, the technical details of how to run GNS UI are no longer necessary. In other words, this section discusses the parts where a simple end-user can take advantage of GNS Web App.\\
+
+\noindent
+The Web interface contains a menu of two (2) possible navigations, or links to specific views:
+
+\begin{enumerate}
+    \item \textcolor{orange}{Home}: a splash screen serving as the entry point of the web app,
+    \item \textcolor{orange}{My Notes}: an overview of the previously-saved notes, if any.
+\end{enumerate}
+
+\noindent
+\textit{Home Page}\\
+\noindent
+The \textcolor{orange}{Home} page is a starting point for the GNS web app. Once the page is loaded as previewed in Figure \ref{fig:gns-ui-home}, the user can either click on “Get Started” or the links “My Notes” to enter the “Notebook” section, where he or she can view, edit, or delete previously saved notes, and add new notes as well.\\
+
+\noindent
+\textit{My Notes Page}\\
+\noindent
+This page constitutes the main page to perform the above-mentioned operations. The notes are listed in a table, whose columns specify the data field for a give note. For instance, observe in Figure \ref{fig:gns-ui-notebooks} how the column “Description” highlights a block of key information (Code, Description, Author Name) for a specific note.\\
+
+\begin{figure}
+    \centering
+        \includegraphics[width=1\textwidth]{images/screenshots/gns-ui-screenshot_notebooks.png}
+        \caption{Preview of the main page “Notebook”}
+        \label{fig:gns-ui-notebooks}
+\end{figure}
+
+\noindent
+Additionally, two (2) other views, “Notebook Form” and “Notebook Details”,  are created to  respectively allow the creation of new notes and the display of  the notebook details once created. Note that from the “My Notes” page, a user can partly see the notes due to lack of space, therefore, the “Notebook details” is judged useful when it come to completely displaying some  relatively long notes.\\
+
+\begin{figure}
+    \centering
+        \includegraphics[width=1\textwidth]{images/screenshots/gns-ui-screenshot_notebook-form.png}
+        \caption{View to add notes}
+\end{figure}
+
+\begin{figure}
+    \centering
+        \includegraphics[width=1\textwidth]{images/screenshots/gns-ui-screenshot_notebook-details.png}
+        \caption{View to display long, detailed notes}
+\end{figure}
