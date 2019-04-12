@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 
 import { NotebookService } from '../notebook.service';
@@ -20,6 +20,7 @@ export class NotebooksComponent implements OnInit {
     dataSource: any;
     columnNames: string[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
 
     constructor(
         private service: NotebookService,
@@ -30,7 +31,7 @@ export class NotebooksComponent implements OnInit {
     ngOnInit() {
         this.loading = true;
         this.columnNames = [
-             'description', 'note', 'latitude', 'longitude', 'gnsDate', 'actions'
+            'description', 'note', 'latitude', 'longitude', 'gnsDate', 'actions'
         ];
         this.service.getAll()
             .subscribe(
@@ -38,6 +39,7 @@ export class NotebooksComponent implements OnInit {
                     this.notebooks = data;
                     this.dataSource = new MatTableDataSource<Notebook>(data);
                     this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
                 },
                 (error: string) => {
                     this.loading = false;
@@ -71,6 +73,11 @@ export class NotebooksComponent implements OnInit {
                 },
                 () => this.loading = false
             );
+    }
+
+    applyFilter(term: string): void {
+        term = term.trim().toLowerCase(); // clean search term
+        this.dataSource.filter = term;
     }
 
     onDelete(notebook: Notebook): void {

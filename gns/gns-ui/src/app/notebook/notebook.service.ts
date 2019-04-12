@@ -4,7 +4,6 @@
  * Created on March 23, 2019
  * @author Ralph Florent <ralflornt@gmail.com>
  */
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
@@ -19,7 +18,7 @@ import { transform } from '../shared/utils/parser';
 export class NotebookService {
 
     private baseUrl = GNS_CONSTANTS.api.BASE_URL;
-    
+
     constructor(private http: HttpClient) { }
 
     getAll(): Observable<Notebook[] | string> {
@@ -30,8 +29,8 @@ export class NotebookService {
                     return response
                         .data
                         .map(e => transform(e) as Notebook);
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -41,8 +40,8 @@ export class NotebookService {
             .pipe(
                 map( (response: HttpResponse<Notebook>) => {
                     return transform(response.data) as Notebook;
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -54,8 +53,8 @@ export class NotebookService {
                     return response
                         .data
                         .map(e => transform(e) as Notebook);
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -65,8 +64,8 @@ export class NotebookService {
             .pipe(
                 map( (response: HttpResponse<GPSLocation>) => {
                     return transform(response.data) as GPSLocation;
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -76,8 +75,8 @@ export class NotebookService {
             .pipe(
                 map( (response: HttpResponse<Notebook>) => {
                     return transform(response.data) as Notebook;
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -87,8 +86,8 @@ export class NotebookService {
             .pipe(
                 map( (response: HttpResponse<Notebook>) => {
                     return transform(response.data) as Notebook;
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -99,8 +98,8 @@ export class NotebookService {
             .pipe(
                 map( (response: HttpResponse<null>) => {
                     return response.status;
-                }), 
-                catchError(this.handleError) 
+                }),
+                catchError(this.handleError)
             );
     }
 
@@ -120,7 +119,7 @@ export class NotebookService {
                 case 500: errorMessage = `Errors occurred while processing a request. Try later!`; break;
                 default: errorMessage = `Server returned code: ${err.status}, error message is: ${err.message}`;
             }
-            
+
         }
         return throwError(errorMessage);
     }

@@ -9,7 +9,7 @@
     </h5>
     <hr class="gns-hr-separator gns-color-primary" />
     <div class="container">
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-sm-12">
                 <div class="clearfix">
                     <div class="float-left">
@@ -30,16 +30,24 @@
                         </a>
                     </div>
                 </div>
-
             </div>
-        </div>
+        </div> -->
         <br>
+        <div fxLayout="row">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+            <div class="float-right">
+                <a class="btn btn-primary" style="margin-top: 5px" [routerLink]="['/notebooks', '0', 'edit']">
+                    New
+                </a>
+            </div>
+          </div>
         <div class="mat-elevation-z8">
-            <table class="table-responsive-sm" mat-table [dataSource]="dataSource">
+            <table mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="description">
-                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Description
-                    </th>
-                    <td mat-cell *matCellDef="let nb">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef> Description</th>
+                    <td mat-cell *matCellDef="let nb" data-label="description">
                         <a class="gns-overlay" [routerLink]="['/notebooks', nb.id]">
                             {{ nb.description }} <br>
                             <span class="small text-muted">
@@ -50,34 +58,33 @@
                 </ng-container>
 
                 <ng-container matColumnDef="note">
-                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Note </th>
-                    <td mat-cell *matCellDef="let nb"> {{ nb.note | shrink: 20 }} </td>
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef> Note </th>
+                    <td mat-cell data-label="note" *matCellDef="let nb"> {{ nb.note | shrink: 20 }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="latitude">
-                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Latitude </th>
-                    <td class="text-success" mat-cell *matCellDef="let nb">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef> Latitude </th>
+                    <td class="text-success" data-label="latitude" mat-cell *matCellDef="let nb">
                         {{ nb.latitude | number: '1.8-8' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="longitude">
-                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Longitude </th>
-                    <td class="text-info" mat-cell *matCellDef="let nb">
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef> Longitude </th>
+                    <td class="text-info" data-label="longitude" mat-cell *matCellDef="let nb">
                         {{ nb.longitude | number: '1.8-8' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="gnsDate">
-                    <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Last Updated
-                    </th>
-                    <td mat-cell *matCellDef="let nb"> {{ nb.gnsDate | date: 'medium' }} </td>
+                    <th class="gns-table-header" mat-header-cell mat-sort-header *matHeaderCellDef> Last Updated</th>
+                    <td mat-cell data-label="last updated" *matCellDef="let nb"> {{ nb.gnsDate | date: 'medium' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="actions">
                     <th class="gns-table-header" mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let nb">
-                        <a class="btn btn-outline-primary btn-sm gns-btn-margin-left"
-                            [routerLink]="['/notebooks', nb.id, 'edit']"> edit </a>
-                        <a class="btn btn-outline-danger btn-sm gns-btn-margin-left"
+                    <td mat-cell data-label="actions" *matCellDef="let nb">
+                        <a class="btn btn-link btn-sm"
+                            [routerLink]="['/notebooks', nb.id, 'edit']"> edit </a> |
+                        <a class="btn btn-link btn-sm"
                             (click)="onDelete(nb)" [routerLink]>
                             del
                         </a>
