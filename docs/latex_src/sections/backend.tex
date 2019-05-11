@@ -1,10 +1,10 @@
 % backend.tex
 % section on backend system and development process
 
-\subsection{Backend System}
+\section{Backend System}
 This section will highlight the development process of the backend system. The back-end system outlined in this report refers to the system residing on the Raspberry Pi. This system manages the database, and the GPS data streaming. It is also responsible for providing the web application with the required data and functionality.\\
 
-\subsubsection{Architecture}
+\subsection{Architecture}
 The GNS backend was built using \textit{Java 11} and the \href{https://spring.io}{Spring Boot Framework}\cite{spring-boot}. The system was developed to provide a \textit{REST based micro-service} running on the Raspberry-Pi. Spring Boot is bundled with its own \textit{Apache Tomcat Java Server}\cite{apache-tomcat}, and the final artifact from the development was a \textit{jar} file that was run on Raspberry Pi under the \textit{JVM}.\\
 
 These REST endpoints were exposed to interface with the system for carrying out basic operations on the notebook data, namely to create, read, update and delete notebooks. The user interface was a web application that was a client of this backend-system.\\
@@ -13,7 +13,7 @@ In addition to the REST API, the system also connected to the GPS system program
 
 This allowed the system to become a client of the \textit{gpsd} server, that was also running on the Pi. The library was used to \textit{stream} the GPS data every second. This data was dumped to a \textit{CSV file}, and was renamed according to the date. Hence, the location of the Pi is always being tracked, and is stored by day in CSV files. These log files can be found in the \textit{gps\_logs} folder.\\
 
-\subsubsection{Location Data}
+\subsection{Location Data}
 
 The location data that is dumped to the CSV file every second, was used in a test run. The device was started, and notes were created around campus. During this test walk, the backend system was streaming the GPS data continously to the CSV file. The first few records of this CSV file are given below:\\
 

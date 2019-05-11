@@ -1,13 +1,13 @@
 % web_interface.tex
 % Web interface section for the report
 
-\subsection{Web Interface}
+\section{Web Interface}
 As mentioned above, GNS consists mainly of two parts: firstly, a background running process to load and process the raw GPS data, and on the other hand, a web interface to visualize the pre-processed data and perform certain actions with them. This section will focus on detailing the different components joint together to produce the expected end-results.
 GNS was never conceived as server-to-server application, but as a client-to-server application. Although the server-to-server module remains eventually a considerable aspect to take the project to a distribution level, a normal end-user will enjoy better a WYSIWYG-based experience using an HTTP Web Client, mostly known as a web browser.
 
 \vspace{1.0cm}
 \noindent
-\subsubsection{Choosing a tool to build the web app}
+\subsection{Choosing a tool to build the web app}
 
 Unlike the old times, web developers nowadays exposed to innumerable sets of tools easing up their lives when it comes to create web pages and applications. In fact, building a web application is no longer a luxury for web developers due to the amount of frameworks and libraries currently available. Big companies like Google, Facebook, among others, dedicate their strengths and efforts in building powerful tools to enhance fast development and deployment across all platforms \cite{angular}.\\
 
@@ -58,7 +58,7 @@ In order to take advantage of React, some pieces need to be pulled out from the 
 
 \vspace{1.0cm}
 \noindent
-\subsubsection{Using Angular to build GNS-UI}
+\subsection{Using Angular to build GNS-UI}
 No wonder, Angular is the chosen one. GNS UI is the HTTP web client module for the GNS project, used to access geospatial data from the GNS API and take notes.
 
 This web application, known as GNS Web App, is used to manage different tasks when it comes to taking notes and archiving them. Among others, certain tasks feature the following: locating the current position of the set of Raspberry PI + GPS puck; adding, editing, and/or viewing existing notes; creating base maps based on the path traveled during the process of note taking, and so forth. To build the website from scratch, follow the instructions below from a development standpoint up to production.
